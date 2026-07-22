@@ -1,6 +1,6 @@
 {
   "name": "reflow-marketplace",
-  "description": "Private plugin marketplace for the Reflow personal-system product",
+  "description": "Plugin marketplace for the Reflow personal-system product",
   "owner": {
     "name": "Oren Magid",
     "email": "oren.michael.magid@gmail.com"
@@ -8,10 +8,7 @@
   "plugins": [
     {
       "name": "reflow-core",
-      "source": {
-        "source": "github",
-        "repo": "orenmagid/reflow-core-plugin"
-      }
+      "source": "."
     }
   ]
 }
