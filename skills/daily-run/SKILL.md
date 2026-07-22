@@ -20,6 +20,12 @@ Read the client's `reflow-config` skill: their database bindings, contexts, cate
 
 **Timezone matters more here than anywhere else in the system.** "Today," "already past," and "when this is next due" all depend on it. Use the client's configured timezone. If it is not set, use the Notion workspace's, and note in the receipt that you assumed one — a wrong timezone quietly shifts every repeating thing by a day, and nobody would ever notice.
 
+## Read each list once, then work from memory
+
+The steps below need to look through the Inbox, the Next Actions, and the Projects — several of them look through Next Actions more than once, for different reasons. **Do not go back to Notion each time.** On a free Notion plan, the tool that reads a whole list has a hard, low limit — about ten reads in a window, then it simply stops — and re-reading the same list for every step would blow past it and leave the run half-finished with no way to tell.
+
+So: at the start, read each of the three lists **once** — the Inbox, all of Next Actions, all of active Projects — and hold them. Then every step below works against what you already have in hand: the orphan check, the completion stamping, the occurrence backfill, the recurrence pass, the "does this chain already have an open occurrence" check — all of it reads from memory, not from Notion. Reading a single specific page back (to confirm a write, or to check one project's status) is fine and unlimited; it's *enumerating a whole list* that's scarce, so do that exactly three times.
+
 ## Are you alone?
 
 Three things — and only these three — depend on whether the client is present. Decide once, at the start, and be consistent for the whole run.

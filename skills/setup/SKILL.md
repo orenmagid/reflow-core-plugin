@@ -76,7 +76,9 @@ Build the ten views to specification — type, filter, grouping, sort — and hi
 
 Notion creates a default view with every new database and it can't be removed. **Rename and reuse it as that database's first view** rather than building alongside it and leaving something unnamed behind forever.
 
-Dates in filters are written in as real dates, because there's no way to say "today" that keeps up on its own. That's expected — the daily run re-stamps them. Set them to today as you build.
+Dates in filters are written in as real, exact dates, because there's no way to say "today" that keeps up on its own. That's expected — the daily run re-stamps them. Set them to today's actual date as you build.
+
+**Never write the literal word "today" into a date filter.** It looks like it should work, and the connection *accepts* it without complaint — but it stores a dead value that matches nothing, so the view comes back permanently empty and nothing tells you it broke. This was confirmed the hard way. Always compute today's real date and write that exact date; a filter with "today" in it is a silently broken view, which is worse than an obvious error.
 
 Then the review page: the eight linked views, in the order the weekly walk goes.
 

@@ -22,6 +22,8 @@ Two things kill a review, and both are on you to prevent. **Length** — anythin
 
 **One caution on reading the board.** Some things the system computes — whether a project has a live next step, for instance — can't be read back directly. You'll know a project is stalled because it appears in the stalled view, not because you read a count. Trust what the views show; don't try to derive it and don't report a number you couldn't actually see.
 
+**Read the views, not the raw lists.** Each step of the walk below corresponds to one of the dashboard's saved views — "what got done," "stalled," "waiting," and so on. Read those *views*, not the underlying databases by query. This isn't only tidier: on a free Notion plan the two ways of reading draw from separate limited pools, and reading views keeps the whole walk in the more forgiving one. Read each view once as you gather; don't re-read.
+
 ## The walk — eight steps, in this order
 
 ### 1. What got done

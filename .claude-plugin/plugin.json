@@ -1,6 +1,6 @@
 {
   "name": "reflow-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A calm, personal system for keeping track of your life. Catch a thought in two seconds; Claude works out what it really is and files it where it belongs, keeps your projects from quietly stalling, and walks a short weekly review with you. Your lists live in your own Notion.",
   "author": {
     "name": "Oren Magid"
