@@ -78,12 +78,14 @@ Matching an existing database is **exact, case-sensitive, on the plain title**, 
 Notion formula syntax is version-sensitive, so these are the exact strings, not descriptions of them:
 
 ```
-Next?     prop("Status") == "Next" ? 1 : 0
+Next?     (prop("Status") == "Next" or prop("Status") == "Waiting") ? 1 : 0
 
 Stalled   (prop("Status") == "Active" and prop("Open next actions") == 0) ? "STALLED" : ""
 ```
 
 `Stalled` returns **text**, never a checkbox or boolean. The boolean form was built during Phase 1a verification and degraded into a brittle string comparison. This matters more than it looks: a boolean `Stalled` passes every "does this property exist?" check while the view filtering `Stalled = "STALLED"` matches nothing — leaving the single most important view in the system permanently empty, which is exactly what a healthy system also looks like.
+
+**A waiting action counts as live — decided 2026-07-23, after the first in-product build made the alternative observable.** `Next?` returns 1 for `Waiting` as well as `Next`: a project blocked on someone else's reply *has* a next step, so it does not belong in "⚠ Stalled — needs a next action" — the Waiting-for view and the weekly review own the blocked case, with who and since. The earlier formula counted only `Next`, which would have flooded the system's loudest view with projects the client can't act on, teaching her to ignore the one view that must never be ignorable. The Phase 1a reference build and the first throwaway build (2026-07-23) carry the old formula; any build predating this note needs `Next?` rewritten on its next setup run.
 
 ## Views — complete
 

@@ -100,7 +100,7 @@ Make a test project and one test action linked to it. Then walk the action throu
 | `Waiting` | no — it *still* has a next step, just a blocked one |
 | `Done` | **yes** — nothing live is left |
 
-The middle one is the one people skip, and it's the one that catches a real fault: if `Next?` counted waiting items as live, a project that's completely blocked would never show as stalled, and the client would never be told about the thing most worth telling her.
+The middle one is the one people skip, and it's the one that catches a real fault: if the live-step formula counted only `Next`, every project waiting on someone else's reply would light up the stalled view — the system nagging her about things she can't act on, until she learns to ignore the one view that must never be ignorable. Waiting has its own view, and the weekly review walks it; stalled means *needs a next action*, and a waiting project has one. So if the middle state shows the project as stalled, the build is carrying the old, pre-correction formula — rewrite it to the specification's exact string and run the probe again.
 
 Also check the main "what can I do now" view, since its filter is the fiddliest in the system: give a test action a deferred date in the future and confirm it stays out of sight.
 
