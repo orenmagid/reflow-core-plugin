@@ -12,7 +12,7 @@ description: >-
 
 This builds the thing every other skill writes into. It runs with the client there — it needs their permission before it starts, and it can't be done while nobody's watching.
 
-**The exact structure to build is the "Build specification" section of the system's structure document.** Names, property types, option sets, the two formulas written out literally, all ten views with their filters and sorts, and which fields to hide. Follow it exactly. This skill describes *how to build safely*; that describes *what to build*. Where they seem to disagree, the specification wins — and say so rather than quietly picking one.
+**The exact structure to build is the Build specification, bundled alongside this skill as `build-specification.md` (in this skill's own folder inside the plugin).** Read it before touching anything. Names, property types, option sets, the two formulas written out literally, all ten views with their filters and sorts, and which fields to hide. Follow it exactly. This skill describes *how to build safely*; that describes *what to build*. Where they seem to disagree, the specification wins — and say so rather than quietly picking one. **If you cannot find or read that file, stop and say so — never build from memory of what the structure probably is.** A plausible-looking build from memory is the worst outcome available: it can't be deleted, and every difference from the real specification becomes permanent.
 
 ## The thing to understand before you start
 

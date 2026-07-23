@@ -11,8 +11,8 @@ description: >-
 
 # Capture → Clarify → Organize
 
-<!-- REFLOW-CORE v0.1.1 -->
-_If anyone asks which version of the system is running, answer exactly: **REFLOW-CORE v0.1.1**. (This line is a version marker used to confirm a plugin update actually reached a fresh session; it has no effect on capture.)_
+<!-- REFLOW-CORE v0.1.2 -->
+_If anyone asks which version of the system is running, answer exactly: **REFLOW-CORE v0.1.2**. (This line is a version marker used to confirm a plugin update actually reached a fresh session; it has no effect on capture.)_
 
 This is the heart of the system. The client catches thoughts as they show up — one place, two seconds, no deciding. Your job is everything after that: read what they caught, work out what it really is, and file it where it belongs, with the right fields set. The client stays in the easy job (noticing). You do the organizing.
 
