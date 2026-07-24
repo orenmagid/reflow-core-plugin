@@ -91,7 +91,7 @@ Stalled   (prop("Status") == "Active" and prop("Open next actions") == 0) ? "STA
 
 Eleven views. Ten are specified below; the eleventh is the default table view Notion creates with every database and which cannot be removed through the connector. **The build adopts the default view of the first database as that database's specified view rather than adding an eleventh** — otherwise every run leaves an unnamed stray. **[verify]** confirm during the sitting that adopting-and-renaming a default view is possible; if not, the count is ten specified plus one unremovable default per database.
 
-Hidden in **every** view listed: `Next?`, `Stalled`, `Area`, `Completed`, `Occurrence`. These are plumbing and the client must never see them.
+Hidden in **every** view listed: `Next?`, `Stalled`, `Area`, `Completed`, `Occurrence`. These are plumbing and the client must never see them. The title (`Name`) is the opposite: **never hidden, in any view, anywhere** — including the Weekly Review page's linked views.
 
 | # | Database | View name | Type | Filter | Group | Sort |
 |---|---|---|---|---|---|---|
@@ -114,7 +114,9 @@ Hidden in **every** view listed: `Next?`, `Stalled`, `Area`, `Completed`, `Occur
 
 A page titled `Weekly Review` (emoji as icon), containing **eight linked views** in this order, matching the eight-step walk: Done (recently) · To process · ⚠ Stalled · Active projects · Waiting for · Due soon · Later (scheduled to return) · Someday list. Steps 6 of the walk covers two views (Due soon and Later); step 8 is a question and has no view.
 
-**[verify]** The reference build carried step labels in its linked-view names. Whether that is required, and what the exact labels were, is unrecorded — check during the sitting.
+**Each linked view is titled with the name of the saved view it embeds — never left showing the database's name.** Answered the hard way (2026-07-24, the first live review page): Notion titles a linked-view block with the source *database's* name by default, so a page built without renaming shows two blocks called "Projects" and four called "Next Actions," indistinguishable to a person. Rename every block to its view's name from the list above.
+
+**A linked view on this page mirrors its saved view exactly** — same name, same filter, same sort, same visible columns. The same first live page had embeds leading with `Outcome` and no title column at all, leaving every row anonymous. The `Name` column is never hidden in any view, anywhere — hiding plumbing means the five helper properties, never the title.
 
 ## Build order — a hard chain
 
