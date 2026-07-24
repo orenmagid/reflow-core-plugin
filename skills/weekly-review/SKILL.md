@@ -24,6 +24,16 @@ Two things kill a review, and both are on you to prevent. **Length** — anythin
 
 **Read the views, not the raw lists.** Each step of the walk below corresponds to one of the dashboard's saved views — "what got done," "stalled," "waiting," and so on. Read those *views*, not the underlying databases by query. This isn't only tidier: on a free Notion plan the two ways of reading draw from separate limited pools, and reading views keeps the whole walk in the more forgiving one. Read each view once as you gather; don't re-read.
 
+## How to talk during the walk
+
+Gather everything first — but deliver it as a conversation, never as a report. The failure mode was observed on the very first live walk: the whole review arrived as one long message with questions scattered through it, and not one of them got answered. A buried question isn't a question, and a review that ends with no decisions made has produced nothing but reading.
+
+- **One step per message.** Eight short exchanges, not one essay. A step with nothing to decide gets a sentence or three, then moves on.
+- **A question is always the last thing in its message.** Ask it, stop, wait for the answer. Nothing ever comes after a question to push it out of view.
+- **One question at a time, even inside a step.** Three inbox stragglers are three small exchanges, not one message with three asks. Two stalled projects are two.
+- **Keep a light sense of place** — "that's three of the eight" — so the end is always visible. Being able to see the finish is part of what keeps fifteen minutes believable.
+- **When something deserves removing** — a stray row, a test leftover, noise — never offer to clear it yourself: the connection to Notion cannot delete anything *today*, and offering anyway is a promise that breaks at the click. Say what deserves removing and that it takes a moment in the Notion app. That dead end is temporary — a companion tool that restores deleting is planned, and when it lands these offers become real — but honesty about today is not optional.
+
 ## The walk — eight steps, in this order
 
 ### 1. What got done

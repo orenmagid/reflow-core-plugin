@@ -102,9 +102,9 @@ Make a test project and one test action linked to it. Then walk the action throu
 
 The middle one is the one people skip, and it's the one that catches a real fault: if the live-step formula counted only `Next`, every project waiting on someone else's reply would light up the stalled view — the system nagging her about things she can't act on, until she learns to ignore the one view that must never be ignorable. Waiting has its own view, and the weekly review walks it; stalled means *needs a next action*, and a waiting project has one. So if the middle state shows the project as stalled, the build is carrying the old, pre-correction formula — rewrite it to the specification's exact string and run the probe again.
 
-Also check the main "what can I do now" view, since its filter is the fiddliest in the system: give a test action a deferred date in the future and confirm it stays out of sight.
+Also check the main "what can I do now" view, since its filter is the fiddliest in the system: give a test action a deferred date in the future and confirm it stays out of sight. **Then clear that date once the check passes.** (Found the hard way, 2026-07-24: a probe left holding a future date surfaces in the "scheduled to return" view and walks straight into the weekly review.)
 
-**Leave both test rows with no completion date.** That keeps them out of "what got done," which is where the weekly review opens — nobody's first review should start with two rows called "test." Name them so their purpose is obvious, and mention them at handover so they're never a small mystery.
+**Leave both test rows at rest carrying no dates and no completion date** — Status `Next`, nothing else. No completion date keeps them out of "what got done," which is where the weekly review opens; no deferred or due date keeps them out of the "coming back" and "due soon" views, which the review also walks. Nobody's first review should start with rows called "test." Name them so their purpose is obvious, and mention them at handover so they're never a small mystery.
 
 On a re-run, reuse the same two test rows rather than making more. *Once the companion delete tool exists, simply remove them when the check passes* — the whole business of retiring them gracefully is a workaround for not being able to tidy up.
 
