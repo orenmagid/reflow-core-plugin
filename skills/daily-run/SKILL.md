@@ -102,9 +102,16 @@ Some views filter on a date that was written in when they were built, not one th
 
 Re-stamp those filters to today on every run.
 
-## Step 7 — Say what happened
+## Step 7 — Check your own work, then say what happened
 
-Rewrite the status block on the `My System` page — the callout the setup put there for exactly this. You are always rewriting it, never creating it; if it is genuinely missing, say so rather than improvising a second place to write, because a summary nobody can find is the same as no summary.
+**Before writing anything, walk this list and fix what's missing — a receipt records what happened, never what was intended.** The very first live run skipped a mandatory step and pointed at a note it never wrote (2026-07-25); this check exists so that can't recur silently:
+
+- The dated views actually carry today — read one filter back and look, don't assume the re-stamp landed.
+- Every confidentiality notice you're about to mention in the status block already exists as a note in its task's page body. The note names only *that* something was left out and where it belongs — never the content itself; putting the detail in the note would undo the strip.
+- Every row you filed this run carries a Status; anything without one is a filing you haven't finished.
+- Every recurrence you brought back exists exactly once.
+
+Then rewrite the status block on the `My System` page — the callout the setup put there for exactly this. You are always rewriting it, never creating it; if it is genuinely missing, say so rather than improvising a second place to write, because a summary nobody can find is the same as no summary.
 
 Keep it short, warm, and **honest above all**:
 
