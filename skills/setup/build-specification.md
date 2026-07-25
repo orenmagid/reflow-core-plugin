@@ -91,7 +91,7 @@ Stalled   (prop("Status") == "Active" and prop("Open next actions") == 0) ? "STA
 
 Eleven views. Ten are specified below; the eleventh is the default table view Notion creates with every database and which cannot be removed through the connector. **The build adopts the default view of the first database as that database's specified view rather than adding an eleventh** — otherwise every run leaves an unnamed stray. **[verify]** confirm during the sitting that adopting-and-renaming a default view is possible; if not, the count is ten specified plus one unremovable default per database.
 
-Hidden in **every** view listed: `Next?`, `Stalled`, `Area`, `Completed`, `Occurrence`. These are plumbing and the client must never see them. The title (`Name`) is the opposite: **never hidden, in any view, anywhere** — including the Weekly Review page's linked views.
+Hidden in **every** view listed: `Next?`, `Stalled`, `Area`, `Completed`, `Occurrence`, **and the `Open next actions` rollup** — a number that exists for the `Stalled` formula, not for people. These are plumbing and the client must never see them. The title (`Name`) is the opposite: **never hidden, and it leads — first column in every view, everywhere**, including the Weekly Review page's linked views. (Observed 2026-07-24: the first live review page had `Name` parked as the *last* column in the action and project embeds, leaving rows effectively anonymous at a glance; an earlier read mis-diagnosed this as "hidden" — it was trailing.) The full per-view column list is in the Presentation section below.
 
 | # | Database | View name | Type | Filter | Group | Sort |
 |---|---|---|---|---|---|---|
@@ -110,9 +110,32 @@ Hidden in **every** view listed: `Next?`, `Stalled`, `Area`, `Completed`, `Occur
 
 **View 6 filters on `Completed`, not last-edited.** The earlier version sorted by last-edited because no completion date existed. It does now. This also keeps the build's own verification probes out of the weekly review's opening step — they never get a `Completed` value, so they never appear there.
 
+## Presentation — what a person sees (added 2026-07-25)
+
+_The sections above say what exists; this one says what shows. It exists because the first built review page, structurally perfect, read as a database console (operator verdict, 2026-07-24). The governing rule, from the skin synthesis (`docs/skin/mockup-critique.md`): **nothing appears on a client-facing surface unless Claude can maintain it unattended or it is truly static.** The full home-surface design — trust line, "Right now," the capture button — is `docs/skin/skin-spec.md` and lands with the daily run; this section covers the surfaces the setup skill builds today._
+
+**Each view shows exactly the columns named here, in this order — title always first; every other property hidden in that view.**
+
+| # | View | Visible columns, in order |
+|---|---|---|
+| 1 | To process | Name · Captured · Note |
+| 2 | Next actions — by context (board) | cards: Name · Due — grouped by Context, no Context property on the cards; small cards, no covers |
+| 3 | Waiting for | Name · Notes · Project |
+| 4 | Due soon | Name · Due · Context · Project |
+| 5 | Later (scheduled to return) | Name · Defer · Project |
+| 6 | Done (recently) | Name · Completed · Project |
+| 7 | Active projects | Name · Due |
+| 8 | ⚠ Stalled — needs a next action | Name |
+| 9 | Someday list | Name · Note · Added — grouped by Category, no Category column |
+| 10 | Reference library | Name · Detail · Added — grouped by Category, no Category column |
+
+**Select option colors — stamped at creation, never repaired.** At most three hues carry meaning, and nothing is ever red (the skin synthesis's discipline): Next Actions `Status`: `Next` = green · `Waiting` = yellow · `Done` = gray. Projects `Status`: `Active` = green · `On hold` = yellow · `Done` = gray. Contexts: all gray — they are wayfinding, not signals. Someday and Reference categories: gray. **A color difference on an existing build is not a repair** — colors are set once at creation so re-runs never churn on them; aligning an existing build's colors is an operator-approved one-time choice, never standing behavior.
+
+**Icons, set at creation** (icons, never in titles — see Naming): 📥 Inbox · ✅ Next Actions · 📁 Projects · 🌱 Someday / Maybe · 📚 Reference; pages: `My System` 🌿 · `Weekly Review` 🗓. Icon drift is not a repair.
+
 ## The Weekly Review page
 
-A page titled `Weekly Review` (emoji as icon), containing **eight linked views** in this order, matching the eight-step walk: Done (recently) · To process · ⚠ Stalled · Active projects · Waiting for · Due soon · Later (scheduled to return) · Someday list. Steps 6 of the walk covers two views (Due soon and Later); step 8 is a question and has no view.
+A page titled `Weekly Review` (emoji as icon), opening with **one plain-language intro paragraph** under the title, then containing **eight linked views** in this order, matching the eight-step walk: Done (recently) · To process · ⚠ Stalled · Active projects · Waiting for · Due soon · Later (scheduled to return) · Someday list. Steps 6 of the walk covers two views (Due soon and Later); step 8 is a question and has no view.
 
 **Each embed is labeled by its own heading block, never by renaming the embed.** Two hard-won facts (2026-07-24, first live review page, then the repair run): Notion titles a linked-view block with the source *database's* name by default, so an unlabeled page shows two blocks called "Projects" and four called "Next Actions," indistinguishable to a person — and that title **is treated as unrepairable in place**: the embed's heading IS the shared database name — in the repair run's one observed incident, renaming it renamed the source database globally, and no local-rename route was found (session-reported; the propagation itself was observed live). Until a safe route is demonstrated, never attempt it. So the page is built as **a `##` heading carrying the view's name, followed by the linked embed, eight times, in the walk's order.** Never rely on, or attempt to rename, an embed's built-in heading. Once the extension MCP can toggle "show database title" off on a linked block, hide the eight built-in titles so only the headings show; until then the duplicate database-name line below each heading is accepted clutter, marked interim.
 

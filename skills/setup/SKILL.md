@@ -72,7 +72,7 @@ If a run stopped partway through this chain, pick up from the first link that's 
 
 ## Step 5 — The views and the review page
 
-Build the ten views to specification — type, filter, grouping, sort — and hide the plumbing fields in every one of them. The client should never see a column called `Stalled`.
+Build the ten views to specification — type, filter, grouping, sort, and **exactly the visible columns the specification's Presentation section names for each view, title first**. The client should never see a column called `Stalled`, nor the rollup's raw number, nor a table that leads with anything but the row's name.
 
 Notion creates a default view with every new database and it can't be removed. **Rename and reuse it as that database's first view** rather than building alongside it and leaving something unnamed behind forever.
 
