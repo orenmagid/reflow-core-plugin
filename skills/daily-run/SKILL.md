@@ -24,11 +24,25 @@ Read the client's `reflow-config` skill: their database bindings, contexts, cate
 
 This is not a rounding error for anyone in the Americas. From late afternoon on the west coast and early evening in the east, UTC has already rolled over into tomorrow — so a run in that window stamps the dated views with tomorrow's date and can bring a repeating thing back a day early. That is precisely the silent drift the rest of this skill exists to prevent, arriving through the one setting nobody was ever asked for.
 
+## Then — check what you can reach, before you act
+
+Two things vary from run to run and change what this run can honestly do. Check both once, at the start, and never carry an answer over from a previous run — a tool that answered yesterday proves nothing about today.
+
+**First, the companion delete tool.** A local companion (an extra connection named `notion-extender-local`) may offer `trash_page` and `restore_page` — the one way a row can be moved to Notion's own trash rather than merely hidden. (Trash, honestly stated: recoverable there for thirty days, then gone. Never say "deleted for good" — the tool's own sibling is `restore_page`.) It runs on the client's own computer, so it is reachable only while their desktop app is open — which is why a scheduled run normally finds it absent. Look for it once. **Its absence is the normal state — never an error, never a reason to skip anything, and never worth an apology.** Everything below works fully without it; exactly one step (clearing noise, step 2) gains an extra move when it happens to be there.
+
+**Second, the read meter.** On a free Notion plan the two list-reading tools (`query_data_sources`, the direct-query tool, and `query_database_view`, the view reader) are each budgeted, and the budget is checkable before you spend any of it: `fetch("self")` returns a per-tool status, and that fetch is itself unmetered — checking costs nothing. `limited_free_trial` means headroom; `upgrade_required` means that tool's budget is spent for now (it refills within about an hour). Three branches, decided here:
+
+- **Both healthy** — proceed normally.
+- **The direct-query tool spent, the view reader healthy** — take the three snapshots through the saved views instead: each list has one that covers this run's need (Next Actions' plain default table view, the Inbox's To process, Projects' Active projects), and the view budget is much deeper — fifty-plus reads per window against ten. The run proceeds nearly in full; say in the summary that it read through views this time.
+- **Both spent** — this run degrades to what single-page reads and writes can do, and says so plainly. **Never present a budget you couldn't spend as an Inbox with nothing in it.** An Inbox you could not read is unknown, not empty — reporting it empty is exactly the silent failure this whole skill exists to prevent.
+
+And if exhaustion slips through mid-run anyway, know its face: the failure is HTTP 400 `validation_error` carrying `entitlement_required` (and `retryable: false`) in the error body — **not** a 429, and not shaped like a rate limit at all. Match the error code, not the shape. Misread as a permanent validation bug it looks like something is broken; it is only the meter, and the next run will find the budget refilled.
+
 ## Read each list once, then work from memory
 
 The steps below need to look through the Inbox, the Next Actions, and the Projects — several of them look through Next Actions more than once, for different reasons. **Do not go back to Notion each time.** On a free Notion plan, the tool that reads a whole list has a hard, low limit — about ten reads in a window, then it simply stops — and re-reading the same list for every step would blow past it and leave the run half-finished with no way to tell.
 
-So: at the start, read each of the three lists **once** — the Inbox, all of Next Actions, all of active Projects — and hold them. Then every step below works against what you already have in hand: the orphan check, the completion stamping, the occurrence backfill, the recurrence pass, the "does this chain already have an open occurrence" check, the front-page tier pass — all of it reads from memory, not from Notion. Reading a single specific page back (to confirm a write, or to check one project's status) is fine and unlimited; it's *enumerating a whole list* that's scarce, so do that exactly three times.
+So: at the start, read each of the three lists **once** — the Inbox, all of Next Actions, all of active Projects — and hold them. Then every step below works against what you already have in hand: the orphan check, the completion stamping, the occurrence backfill, the recurrence pass, the "does this chain already have an open occurrence" check, the front-page tier pass — all of it reads from memory, not from Notion. Reading a single page's *content* — checking one project's status, reading a note — is fine and unmetered. **But verifying your own writes is different, and it is not free:** the cheap unmetered page read is the render that has echoed writes that never landed, so write-verification must go through the budgeted query tools — which means it is done in **batches, never per row**. One extra Inbox read at the close confirms every `Cleared` tick at once; if rows were trashed, one more confirms them all gone at once. The whole run's budget arithmetic, spelled out: three snapshots + at most two batched verification reads = five of the ten. Per-row verification would blow the budget by the fourth noise row — that is why it is banned, not just discouraged.
 
 ## Are you alone?
 
@@ -58,7 +72,7 @@ For each row, oldest first. **Do not restate the filing decision here** — the 
 
 The order is exact, and it matters:
 
-1. **Move the row** into the database it belongs in. Do not create a new row and try to remove the old one — moving carries the original capture date with it, and there is no reliable way to delete anything today.
+1. **Move the row** into the database it belongs in. Do not create a new row and try to remove the old one — moving carries the original capture date with it, and the copy-then-trash alternative is worse even now that a trash tool sometimes exists: it would park the client's original words in Notion's visible trash for thirty days, trading a clean move for a lingering copy.
 2. **Write the client's own words into the page body**, if what you are about to call it differs meaningfully from what they wrote. Not into a notes field — those are named differently in every list, and half of them don't have one. This has to happen after the move (the Inbox has nowhere to put it) and before the rename (which is what replaces their wording).
 3. **Rename it** to the action or outcome.
 4. **Set the fields** the capture skill specifies.
@@ -68,6 +82,8 @@ The order is exact, and it matters:
 **When a capture is too unclear to file:** leave it exactly where it is. Do not guess, and do not fill the Inbox with half-decisions. It will be picked up in the weekly review.
 
 **When a capture has nowhere to go at all** — pure noise, or something already done and needing no follow-up — **tick the row's hidden `Cleared` checkbox.** That is the whole verdict: the row leaves the client's To-process view the moment the box is ticked, and the judgement is durable, so no future run ever considers it again. Then name it in the summary — what was cleared, with a word of why — never a silent disposal. Do not invent a task to justify a capture.
+
+**If the companion delete tool is reachable this run, finish the job — but in the right order, at the close.** After ticking `Cleared`, put the row on this run's trash list and move on; **the actual trashing happens in step 8, after the batched read has confirmed the ticks.** The order is load-bearing: a trashed row can no longer answer the tick check, so trash-then-verify makes a landed verdict indistinguishable from one that never landed. Verify the ticks first (one batched read), then trash the verified rows, then confirm them with one more batched read — all of them at once, in the trash — never the call's own success response, and never a page render, both of which have claimed effects that didn't happen. Name every row you sent to the trash in the summary, just as you name what you cleared. When the tool is absent — the normal state for a scheduled run — the tick alone is the whole move, and that is not a shortfall: the row is out of the client's sight and the verdict holds. Rows ticked by earlier runs stay where they are either way; sweeping the settled backlog for real is the weekly review's offer to make, never this run's surprise.
 
 **If the Inbox has no `Cleared` checkbox yet, the structure predates it.** Do not write to a box that isn't there — this connection can accept a write to a property that doesn't exist, report success, and do nothing, which would leave you believing a verdict was recorded when it wasn't. Fall back to the old written verdict in the row's `Note` (`noise — judged <date>, safe to delete`), and say in the summary that the structure is a version behind and the next setup sitting will catch it up.
 
@@ -162,7 +178,9 @@ _The name-them-all rule has already cost something once: a check of a real build
 - Every confidentiality notice you're about to mention in the status block already exists as a note in its task's page body. The note names only *that* something was left out and where it belongs — never the content itself; putting the detail in the note would undo the strip.
 - Every row you filed this run carries a Status; anything without one is a filing you haven't finished.
 - Every recurrence you brought back exists exactly once.
-- Every row you cleared this run actually reads back ticked — check each with a direct row read, never the page render that just accepted the write; a render can echo a write that never landed, and a verdict that didn't land means the same question tomorrow.
+- Every row you cleared this run actually reads back ticked — **one batched query covering all of them** (never per-row, never the page render that just accepted the write; a render can echo a write that never landed, and a verdict that didn't land means the same question tomorrow). **This check runs BEFORE any trashing** — the trash list waits until these ticks are confirmed.
+- Every row you then trashed reads back in the trash — one batched independent read covering them all, never the call's own success response. A removal you didn't confirm is a removal you may not claim.
+- If any work waited because a read budget was spent, the summary names that constraint in plain words. A run that was starved is never allowed to read as a run that found nothing to do.
 
 Then rewrite the status block on the `My System` page — the callout the setup put there for exactly this. You are always rewriting it, never creating it; if it is genuinely missing, say so rather than improvising a second place to write, because a summary nobody can find is the same as no summary.
 
@@ -171,10 +189,12 @@ Keep it short, warm, and **honest above all**:
 - What was filed, in plain numbers.
 - What you left, and why — "I left one for you, I wasn't sure what you meant by it." A client who finds something you claimed to have handled is a client who stops trusting the whole thing.
 - What you cleared as noise or already-done — named, with a word of why. A verdict the client never hears about is a thought that feels swallowed.
+- What you sent to Notion's trash, if the companion tool was there — named, like the clearing verdicts, and stated as what it is: in the trash, recoverable for thirty days, then gone. Never "deleted forever." And when the tool wasn't there, cleared rows were hidden and left in place: one matter-of-fact sentence, not an apology.
+- What waited for budget, if anything — named as the constraint it is ("the workspace's free query budget for this hour was spent; it catches up next run"), never dressed up as an empty list.
 - What came back around, as a count rather than a list.
 - Never claim an empty Inbox unless nothing unjudged is actually left waiting.
 
-**Then record that you ran.** Stamp the time of this successful run somewhere durable. This matters more than it sounds: if this stops working — a connection expires, a task gets deleted, a plan stops supporting it — the client sees an Inbox with things in it, which is *exactly* what they see when everything is fine and they simply captured a few things. Silence looks identical to health. So if the last successful run is older than the configured threshold, say so plainly where they will see it. Nobody else can notice this for them; by design, nobody else can see their system at all.
+**Then record that you ran.** Stamp the time of this run somewhere durable — and if the run was starved, the stamp's own line says so, so a string of starved runs can never masquerade as a string of healthy ones. This matters more than it sounds: if this stops working — a connection expires, a task gets deleted, a plan stops supporting it — the client sees an Inbox with things in it, which is *exactly* what they see when everything is fine and they simply captured a few things. Silence looks identical to health. So if the last successful run is older than the configured threshold, say so plainly where they will see it. Nobody else can notice this for them; by design, nobody else can see their system at all.
 
 **Anything that must survive being unread does not go in the status block**, because you rewrite that every run — a note left on Monday is gone by Tuesday. Above all this applies to something you left out for confidentiality, which is the highest-stakes thing you ever have to say.
 
@@ -184,7 +204,9 @@ Those go in the **page body of the action they concern**, where they stay as lon
 
 - Ask for a brain-dump, or suggest the client sit down and empty their head. Capture is something that happens whenever it happens; this run exists so it does not become homework.
 - Fill an unclear capture with a plausible guess.
-- Report an empty Inbox that isn't.
+- Report an empty Inbox that isn't — including one you couldn't read because a budget was spent. Starved and empty are different truths.
+- Treat the companion delete tool's absence as a failure, or report it as one — a scheduled run normally doesn't have it, and its absence changes nothing the client was promised.
+- Claim a deletion you have not confirmed with an independent read.
 - Describe a repeating item as though the client is behind on it.
 - Change a `Planned` date, or describe a slipped plan as overdue, late, or behind — a plan that slipped is *carried*, and its original date is the record.
 - Weaken the confidentiality strip because nobody was around to be told.

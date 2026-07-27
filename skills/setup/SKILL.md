@@ -22,9 +22,9 @@ That is good practice under any circumstances; nobody wants a workspace with two
 
 - **A field CAN be removed** (drop the column — executed and verified, including on a column holding data). **But dropping a column destroys whatever data is in it**, so removal is never free — and removing a column that a formula or view filter depends on is untested territory. Treat field removal as a repair tool, not an undo button.
 - **A whole database CAN be archived** (executed and verified) — a duplicate from a failed build is recoverable, not permanent.
-- **A single row still cannot be deleted or trashed** — this is the one true permanence, and the reason stray rows are named honestly rather than hidden.
+- **A single row still cannot be deleted or trashed through the connection you build with** — a gap in the connection, not a limit of Notion, and the reason stray rows are named honestly rather than hidden.
 
-**That is a gap in the connection, not a limit of Notion**, and it is being closed: a companion tool is planned that will restore deleting. Where this skill tells you to stop rather than risk something, or to leave something in place and explain it, that is a *temporary* accommodation and is marked as such. The careful checking stays either way. The dead ends go away.
+**The row gap now has a real answer for attended work: the companion delete tool exists.** It is a separate, local connection (named `notion-extender-local`) running on the client's own computer, so it answers only while their desktop app is open — and only where it has been installed for this client at all. Check for it once per sitting, never carrying the answer over from a previous one, and know its one deliberate boundary: it refuses to touch anything outside the system it was installed for. Where it is reachable, a stray row stops being permanent; where it is not, the honest accommodations below stand exactly as written, and its absence is a normal state, never an error. The careful checking stays either way.
 
 ## Step 1 — Ask before you touch anything
 
@@ -58,7 +58,7 @@ For each, create it or adopt what's there, then bring its fields to match the sp
 - **Adding a missing field is safe.** Do it, and mention it.
 - **A field of the wrong type is not.** Notion will often accept the change and lose data doing it, and field structure isn't covered by page history — so there's no getting it back. **Stop, and say plainly what's wrong.** Never convert it and hope.
 
-  Then offer the way out. *Today:* you can open Notion directly in the browser and remove the field by hand, which you can do even though the connection can't. *Once the companion delete tool exists:* remove it directly and carry on with the build, no interruption. Either way this stops being a dead end — the client is never left holding a system that can't be finished.
+  Then offer the way out: the wrong-typed column has to go, and there are two doors. The connection itself can now drop a column — but dropping a column destroys whatever data it holds, so that is the client's call after hearing exactly that; and on a build whose plumbing already exists, be doubly careful, because dropping a column a formula or view depends on is untested territory. Or they can open Notion in the browser and remove it by hand. (This is not the companion delete tool's job — that tool removes rows, never fields.) Either way this stops being a dead end — the client is never left holding a system that can't be finished.
 
 The near-certain instance of this: Notion's own default for anything task-shaped is its special **Status** field type, while this system uses a plain **Select** called Status. A database the client made themselves, or a half-finished earlier attempt, will hit this immediately.
 
@@ -118,7 +118,7 @@ Also check the main "what can I do now" view, since its filter is the fiddliest 
 
 On a re-run, reuse the same two test rows rather than making more.
 
-**One story about these rows, and every skill tells it the same way: they can stay, and deleting them costs nothing** — a later setup run simply makes them again. They are the build's own proof that the wiring works, not litter left behind. So never hand them to the client as something needing cleaning up, and never let the weekly review do it either; the review has its own instruction to leave them alone, and the two must not drift apart. *Once the companion delete tool exists, the check can simply remove them when it passes* — but until then, "they can stay" is the honest answer and the only one anybody should hear.
+**One story about these rows, and every skill tells it the same way: they can stay, and deleting them costs nothing** — a later setup run simply makes them again. They are the build's own proof that the wiring works, not litter left behind. So never hand them to the client as something needing cleaning up, and never let the weekly review do it either; the review has its own instruction to leave them alone, and the two must not drift apart. *When the companion delete tool is reachable this sitting, the check can simply remove both rows once it passes* — confirm each is genuinely gone with an independent read, and then there is nothing to hand over at all. When it is not reachable, "they can stay" is the honest answer and the only one anybody should hear.
 
 ## Step 8 — Write down where everything is
 
@@ -136,9 +136,9 @@ Plainly, and in their terms — five lists, a review page, and the wiring that k
 
 Say three things that would otherwise become small mysteries:
 
-- The two test rows — what they are, and that **they can stay, and deleting them costs nothing**, because a later setup run simply makes them again.
+- The two test rows, if they are still there — what they are, and that **they can stay, and deleting them costs nothing**, because a later setup run simply makes them again. (If the companion delete tool was reachable and the check already removed them, there is nothing to mention.)
 - Anything you repaired or couldn't, especially a field you had to stop on.
-- That Notion's own starter pages are still sitting there. Every new Notion workspace comes with them and there's no way to start without them. Offer to clear them out — through the browser today, directly once the companion delete tool exists.
+- That Notion's own starter pages are still sitting there. Every new Notion workspace comes with them and there's no way to start without them. Offer to clear them out — in the browser, by hand. That stays a by-hand job even now that the companion delete tool exists: the tool deliberately refuses to touch anything outside the system it was installed for, and those pages sit outside it. A safety boundary, not a missing feature.
 
 ## What you never do
 
