@@ -135,24 +135,30 @@ Then clear the flag on everything you didn't choose this run. Yesterday's choice
 
 Some views filter on a date that was written in when they were built, not one that moves on its own. Left alone, they drift: an item that was deferred until a date that has since arrived falls out of the "what can I do now" view *and* out of the "coming back later" view, and becomes invisible in both. Nothing is more corrosive than a commitment the system quietly stops showing.
 
-**Re-stamp all four dated views on every run. Name them, and do them all — "the dated views" is not a list.** A run that re-stamps some and not others leaves no trace, because a stale view looks exactly like a fresh one:
+**First, look at what each filter actually says — because there are now two kinds of dated view, and they need opposite treatment.**
 
-| View | What its date filter should say after you re-stamp |
-|---|---|
-| Next actions — by context | `Defer` on or before **today** |
-| Later (scheduled to return) | `Defer` after **today** |
-| Due soon | `Due` on or before **a month from today** |
-| Done (recently) | `Completed` on or after **a week ago** |
+A view converted to Notion's own **relative** dates (its filter literally says `today`, `one_month_from_now`, `one_week_ago` — a word, not a calendar date) **maintains itself. Leave it completely alone.** Re-stamping it with a real date would be the worst edit available: it silently downgrades a self-maintaining view back into one that rots, and nothing would ever look wrong. These relative values are real and live — confirmed by execution over two days (2026-07-26/27): the stored `today` advances by itself.
 
-_This vagueness has already cost something. A check of a real build on 2026-07-27 found "Done (recently)" carrying a filter date ten days old — it had never been re-stamped once, because the instruction said "those filters" and the self-check only ever sampled one. The board looked perfectly fine the whole time._
+A view still carrying an **absolute** date (a real calendar date like `2026-07-27`) is the old, interim kind — it was built through the first-party connection, which can only write literal dates — and it still needs the re-stamp, every run, until it gets converted.
 
-**This whole step is interim, and here is what ends it.** The reason these dates are frozen is that the *Notion connector* cannot write a relative date into a view filter. **Notion itself can** — its REST API stores `on_or_before: today` and keeps it live, confirmed by execution over two days (2026-07-26/27). So once views can be written through the supplemental connector rather than the first-party one, all four filters become self-maintaining and **this step is deleted outright.** Until then it is mandatory. Do not write the literal word `"today"` into a filter through the connector as a shortcut — it is accepted without complaint and stores a dead value matching zero rows, which is a silently empty view.
+**So the step is: read all four filters, skip the relative ones, re-stamp the absolute ones. Name them, and check them all — "the dated views" is not a list.** A run that handles some and not others leaves no trace, because a stale view looks exactly like a fresh one:
+
+| View | Self-maintaining (relative) form — leave alone | Interim (absolute) form — re-stamp to |
+|---|---|---|
+| Next actions — by context | `Defer` on or before `today` | `Defer` on or before today's real date |
+| Later (scheduled to return) | `Defer` after `today` | `Defer` after today's real date |
+| Due soon | `Due` on or before `one_month_from_now` | `Due` on or before a month from today, as a real date |
+| Done (recently) | `Completed` on or after `one_week_ago` | `Completed` on or after a week ago, as a real date |
+
+_The name-them-all rule has already cost something once: a check of a real build on 2026-07-27 found "Done (recently)" carrying a filter date ten days old — it had never been re-stamped, because the instruction said "those filters" and the self-check only sampled one. The board looked perfectly fine the whole time._
+
+**One trap, and it is absolute: never write the WORD "today" through the first-party connection as a shortcut.** The relative values only work when written through Notion's own API (the one-time conversion, done at setup or by the consultant). Through the first-party connection the literal `"today"` is accepted without complaint and stored as a dead value matching zero rows — a permanently, silently empty view. If you cannot write a relative value, write today's real date; the two failure modes are not symmetric.
 
 ## Step 8 — Check your own work, then say what happened
 
 **Before writing anything, walk this list and fix what's missing — a receipt records what happened, never what was intended.** The very first live run skipped a mandatory step and pointed at a note it never wrote (2026-07-25); this check exists so that can't recur silently:
 
-- **All four dated views carry the right date — read back all four filters, not one.** Sampling a single view is how "Done (recently)" went ten days without ever being re-stamped while every run reported success (found 2026-07-27). Check by-context, Later, Due soon, and Done (recently) individually, and say which you checked.
+- **All four dated views are in a healthy state — read back all four filters, not one.** Healthy means: a relative word (`today`, `one_month_from_now`, `one_week_ago`) that you left untouched, or a real date you re-stamped this run. Unhealthy means an absolute date you didn't re-stamp — or a relative filter you overwrote, which is worse. Sampling a single view is how "Done (recently)" went ten days stale while every run reported success (found 2026-07-27). Check by-context, Later, Due soon, and Done (recently) individually, and say which you checked and which kind each was.
 - Every confidentiality notice you're about to mention in the status block already exists as a note in its task's page body. The note names only *that* something was left out and where it belongs — never the content itself; putting the detail in the note would undo the strip.
 - Every row you filed this run carries a Status; anything without one is a filing you haven't finished.
 - Every recurrence you brought back exists exactly once.
