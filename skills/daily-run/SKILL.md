@@ -18,13 +18,17 @@ Nobody is necessarily watching when this runs. That shapes everything below — 
 
 Read the client's `reflow-config` skill: their database bindings, contexts, categories, areas, timezone, and confidentiality settings. Without the bindings you cannot file anything, so if they are missing, stop and say so plainly rather than writing into the wrong place. Everything else falls back to documented defaults.
 
-**Timezone matters more here than anywhere else in the system.** "Today," "already past," and "when this is next due" all depend on it. Use the client's configured timezone. If it is not set, use the Notion workspace's, and note in the receipt that you assumed one — a wrong timezone quietly shifts every repeating thing by a day, and nobody would ever notice.
+**Timezone matters more here than anywhere else in the system.** "Today," "already past," and "when this is next due" all depend on it. Use the client's configured timezone.
+
+**If it is not set, you are running in UTC — say so in the receipt, in those words.** Do not go hunting for a substitute — not in Notion, not anywhere. Nothing in the connection is known to expose a timezone of its own, and a run that quietly assumes one is exactly how every repeating thing in someone's life shifts by a day without anyone ever noticing. Write it plainly where they will see it — that this run used UTC because no timezone is recorded, and that telling Claude their timezone once fixes it for good. That sentence is the whole remedy; it is the only thing that turns this off.
+
+This is not a rounding error for anyone in the Americas. From late afternoon on the west coast and early evening in the east, UTC has already rolled over into tomorrow — so a run in that window stamps the dated views with tomorrow's date and can bring a repeating thing back a day early. That is precisely the silent drift the rest of this skill exists to prevent, arriving through the one setting nobody was ever asked for.
 
 ## Read each list once, then work from memory
 
 The steps below need to look through the Inbox, the Next Actions, and the Projects — several of them look through Next Actions more than once, for different reasons. **Do not go back to Notion each time.** On a free Notion plan, the tool that reads a whole list has a hard, low limit — about ten reads in a window, then it simply stops — and re-reading the same list for every step would blow past it and leave the run half-finished with no way to tell.
 
-So: at the start, read each of the three lists **once** — the Inbox, all of Next Actions, all of active Projects — and hold them. Then every step below works against what you already have in hand: the orphan check, the completion stamping, the occurrence backfill, the recurrence pass, the "does this chain already have an open occurrence" check — all of it reads from memory, not from Notion. Reading a single specific page back (to confirm a write, or to check one project's status) is fine and unlimited; it's *enumerating a whole list* that's scarce, so do that exactly three times.
+So: at the start, read each of the three lists **once** — the Inbox, all of Next Actions, all of active Projects — and hold them. Then every step below works against what you already have in hand: the orphan check, the completion stamping, the occurrence backfill, the recurrence pass, the "does this chain already have an open occurrence" check, the front-page tier pass — all of it reads from memory, not from Notion. Reading a single specific page back (to confirm a write, or to check one project's status) is fine and unlimited; it's *enumerating a whole list* that's scarce, so do that exactly three times.
 
 ## Are you alone?
 
@@ -50,6 +54,8 @@ Finish each one properly — set the fields it never got — before moving on. I
 
 For each row, oldest first. **Do not restate the filing decision here** — the capture skill owns what a captured thought is and where it belongs; read it and follow it. This skill owns only *when* that happens and *how the row physically moves*.
 
+**Skip what has already been judged.** A row whose hidden `Cleared` box is ticked is settled — pass over it in silence. So is a row whose `Note` carries a written verdict from a run that predates the checkbox (`noise — judged …`): honour it, and if the `Cleared` box exists, tick it now so the row finally leaves the client's view too. What a verdict is and when you record one is at the end of this step.
+
 The order is exact, and it matters:
 
 1. **Move the row** into the database it belongs in. Do not create a new row and try to remove the old one — moving carries the original capture date with it, and there is no reliable way to delete anything today.
@@ -61,7 +67,13 @@ The order is exact, and it matters:
 
 **When a capture is too unclear to file:** leave it exactly where it is. Do not guess, and do not fill the Inbox with half-decisions. It will be picked up in the weekly review.
 
-**When a capture has nowhere to go at all** — pure noise, or something already done and needing no follow-up — there is currently nowhere to put it, because nothing in the system can delete a row yet. Leave it and note it in the summary. Do not invent a task to justify a capture, and do not pretend the Inbox is empty when it isn't.
+**When a capture has nowhere to go at all** — pure noise, or something already done and needing no follow-up — **tick the row's hidden `Cleared` checkbox.** That is the whole verdict: the row leaves the client's To-process view the moment the box is ticked, and the judgement is durable, so no future run ever considers it again. Then name it in the summary — what was cleared, with a word of why — never a silent disposal. Do not invent a task to justify a capture.
+
+**If the Inbox has no `Cleared` checkbox yet, the structure predates it.** Do not write to a box that isn't there — this connection can accept a write to a property that doesn't exist, report success, and do nothing, which would leave you believing a verdict was recorded when it wasn't. Fall back to the old written verdict in the row's `Note` (`noise — judged <date>, safe to delete`), and say in the summary that the structure is a version behind and the next setup sitting will catch it up.
+
+**The verdict is the point: a judgement nobody wrote down gets made again tomorrow.** Nothing else in the system remembers that you already looked at this row and decided there was nothing to do with it — so without the tick, the same "🎉" earns the same question every single day, and a client who is asked the same question daily stops reading the questions. Once a row is ticked — or carries an old written verdict — it is settled: never re-judge it, and never ask about it again. (The ticked rows still exist under the surface; truly removing them is the companion tool's attended job, and they cost nothing where they are.)
+
+Two things this deliberately does *not* cover. A capture that is **too unclear to file** gets no verdict — it is genuinely waiting on a person, and the weekly review is where it gets asked about; stamping it would bury the one straggler that most needs a human. An **empty row** gets nothing written to it at all — there is nothing there to have judged.
 
 ## Step 3 — Confidentiality, on content you are carrying
 
@@ -96,20 +108,55 @@ For each completed action that has a repeat cadence and was completed since the 
 
 **If the cadence is written in a way you cannot turn into a date** — "when the mood strikes" — leave it alone and mention it in the summary. Do not guess at a schedule.
 
-## Step 6 — Keep the dated views honest
+## Step 6 — Choose what the front of the system shows
+
+The home surface shows a short "right now" list, driven by one hidden checkbox on each action — the `Surfaced` flag. You set it fresh on every run, from the rows you already hold in memory. Never read a formula or a rollup to decide any of this — computed values come back empty through this connection; work from the raw fields on each row.
+
+**If the `Surfaced` checkbox doesn't exist yet, the structure predates it — skip this step** and note in the summary that a setup sitting will catch the structure up. (The surface this flag drives may not be built yet either; keeping the flag correct is your job regardless, and costs nothing.)
+
+Two tiers, in order:
+
+**The guaranteed tier — always ticked, no cap.** Every action that is any of:
+
+- due today or overdue — `Due` on or before today, not done;
+- back from deferral today — its `Defer` date has arrived, so it returns today;
+- planned for today — `Planned` is today;
+- **carried** — `Planned` before today and Status not `Done`. A plan that slipped stays in front of the client until it's done or re-decided; it is never allowed to quietly disappear.
+
+These are the client's own commitments to today. The short list's cap yields to them, and they are never held behind the fold.
+
+**The judgment tier — fill to a calm few.** After the guaranteed tier, fill the remaining slots to roughly seven in total: one action per active project first, then standalone captures. Tick those; leave everything else unticked — the overflow sits one tap away, never lost. On a week already carrying slipped plans, fill lighter: a carried group plus a crowded list reads as a pile, and a pile is what this system promises never to hand her.
+
+Then clear the flag on everything you didn't choose this run. Yesterday's choices never linger.
+
+**Two things you never do here.** Never change `Planned` itself — a slipped plan keeps its original date, because the date *is* the record the weekly review re-decides from; rolling it forward would quietly erase the truth. And never describe a carried item as overdue, late, or behind — it is *carried*: still here, nothing lost. Overdue is for deadlines, and a plan is not a deadline.
+
+## Step 7 — Keep the dated views honest
 
 Some views filter on a date that was written in when they were built, not one that moves on its own. Left alone, they drift: an item that was deferred until a date that has since arrived falls out of the "what can I do now" view *and* out of the "coming back later" view, and becomes invisible in both. Nothing is more corrosive than a commitment the system quietly stops showing.
 
-Re-stamp those filters to today on every run.
+**Re-stamp all four dated views on every run. Name them, and do them all — "the dated views" is not a list.** A run that re-stamps some and not others leaves no trace, because a stale view looks exactly like a fresh one:
 
-## Step 7 — Check your own work, then say what happened
+| View | What its date filter should say after you re-stamp |
+|---|---|
+| Next actions — by context | `Defer` on or before **today** |
+| Later (scheduled to return) | `Defer` after **today** |
+| Due soon | `Due` on or before **a month from today** |
+| Done (recently) | `Completed` on or after **a week ago** |
+
+_This vagueness has already cost something. A check of a real build on 2026-07-27 found "Done (recently)" carrying a filter date ten days old — it had never been re-stamped once, because the instruction said "those filters" and the self-check only ever sampled one. The board looked perfectly fine the whole time._
+
+**This whole step is interim, and here is what ends it.** The reason these dates are frozen is that the *Notion connector* cannot write a relative date into a view filter. **Notion itself can** — its REST API stores `on_or_before: today` and keeps it live, confirmed by execution over two days (2026-07-26/27). So once views can be written through the supplemental connector rather than the first-party one, all four filters become self-maintaining and **this step is deleted outright.** Until then it is mandatory. Do not write the literal word `"today"` into a filter through the connector as a shortcut — it is accepted without complaint and stores a dead value matching zero rows, which is a silently empty view.
+
+## Step 8 — Check your own work, then say what happened
 
 **Before writing anything, walk this list and fix what's missing — a receipt records what happened, never what was intended.** The very first live run skipped a mandatory step and pointed at a note it never wrote (2026-07-25); this check exists so that can't recur silently:
 
-- The dated views actually carry today — read one filter back and look, don't assume the re-stamp landed.
+- **All four dated views carry the right date — read back all four filters, not one.** Sampling a single view is how "Done (recently)" went ten days without ever being re-stamped while every run reported success (found 2026-07-27). Check by-context, Later, Due soon, and Done (recently) individually, and say which you checked.
 - Every confidentiality notice you're about to mention in the status block already exists as a note in its task's page body. The note names only *that* something was left out and where it belongs — never the content itself; putting the detail in the note would undo the strip.
 - Every row you filed this run carries a Status; anything without one is a filing you haven't finished.
 - Every recurrence you brought back exists exactly once.
+- Every row you cleared this run actually reads back ticked — check each with a direct row read, never the page render that just accepted the write; a render can echo a write that never landed, and a verdict that didn't land means the same question tomorrow.
 
 Then rewrite the status block on the `My System` page — the callout the setup put there for exactly this. You are always rewriting it, never creating it; if it is genuinely missing, say so rather than improvising a second place to write, because a summary nobody can find is the same as no summary.
 
@@ -117,8 +164,9 @@ Keep it short, warm, and **honest above all**:
 
 - What was filed, in plain numbers.
 - What you left, and why — "I left one for you, I wasn't sure what you meant by it." A client who finds something you claimed to have handled is a client who stops trusting the whole thing.
+- What you cleared as noise or already-done — named, with a word of why. A verdict the client never hears about is a thought that feels swallowed.
 - What came back around, as a count rather than a list.
-- Never claim an empty Inbox unless it is actually empty.
+- Never claim an empty Inbox unless nothing unjudged is actually left waiting.
 
 **Then record that you ran.** Stamp the time of this successful run somewhere durable. This matters more than it sounds: if this stops working — a connection expires, a task gets deleted, a plan stops supporting it — the client sees an Inbox with things in it, which is *exactly* what they see when everything is fine and they simply captured a few things. Silence looks identical to health. So if the last successful run is older than the configured threshold, say so plainly where they will see it. Nobody else can notice this for them; by design, nobody else can see their system at all.
 
@@ -132,4 +180,5 @@ Those go in the **page body of the action they concern**, where they stay as lon
 - Fill an unclear capture with a plausible guess.
 - Report an empty Inbox that isn't.
 - Describe a repeating item as though the client is behind on it.
+- Change a `Planned` date, or describe a slipped plan as overdue, late, or behind — a plan that slipped is *carried*, and its original date is the record.
 - Weaken the confidentiality strip because nobody was around to be told.

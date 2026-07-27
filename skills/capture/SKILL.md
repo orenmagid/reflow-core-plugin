@@ -11,8 +11,8 @@ description: >-
 
 # Capture → Clarify → Organize
 
-<!-- REFLOW-CORE v0.1.9 -->
-_If anyone asks which version of the system is running, answer exactly: **REFLOW-CORE v0.1.9**. (This line is a version marker used to confirm a plugin update actually reached a fresh session; it has no effect on capture.)_
+<!-- REFLOW-CORE v0.1.12 -->
+_If anyone asks which version of the system is running, answer exactly: **REFLOW-CORE v0.1.12**. (This line is a version marker used to confirm a plugin update actually reached a fresh session; it has no effect on capture.)_
 
 This is the heart of the system. The client catches thoughts as they show up — one place, two seconds, no deciding. Your job is everything after that: read what they caught, work out what it really is, and file it where it belongs, with the right fields set. The client stays in the easy job (noticing). You do the organizing.
 
@@ -64,6 +64,7 @@ Run these questions top to bottom. The first one that resolves decides where the
    - **Context** — where or how it gets done: `@Calls`, `@Errands`, `@Computer`, `@Home`, `@Anywhere`. Pick the one that matches how the client would actually get to it. (Emailing and online ordering are `@Computer`; a phone call is `@Calls`.)
    - **Status** — `Next` normally. `Waiting` the moment the client has handed it off and is waiting on someone else — this is a hard rule, not a suggestion: whenever anything flips to `Waiting`, record who and since-when in Notes in the same breath, every time.
    - **Due** — set a real date *only* if there's a genuine deadline. Most actions have none — leave it blank. Don't invent urgency.
+   - **Planned** — when the capture carries do-on-a-day intent ("Saturday I'll clean out the garage," "I'll call them Monday"), put that day here — not in Due (it isn't a deadline; nothing breaks if the day slips) and not in Defer (they said the day out loud because they want to see it coming, not have it hidden). The item stays visible the whole time; the date just records the intent. Planned and Defer can coexist (hidden until the Defer date arrives, planned for a later day), but a capture usually wants one or the other. If the day passes undone, the date is never overwritten and the item is never called overdue — it shows as *carried*, and the weekly review re-decides it.
    - **Occurrence** — only when you're also setting `Repeat`. Give the action a short identifier unique to this repeating thing (any stable string will do — a few words plus a number). Every future occurrence of the same chore carries the same one, which is how the system tells "the next watering" apart from a different task that happens to share a name. Without it, renaming a repeating task makes it come back twice.
    - **Defer** — set only when the capture names something genuinely committed but not-yet-relevant ("school forms come out late August — handle them then"). Defer, never Someday, for anything already committed: Someday means the commitment itself was released; Defer means it's still on, just hidden until its date. Never a stand-in for a real deadline.
    - **Repeat** — if the capture names a cadence ("water the plants every Saturday"), write the cadence in plain English here. This is what keeps a recurring capture from being filed flat as if it were one-off; the field is written now even though the automated respawn is a later mechanism.
@@ -80,6 +81,7 @@ When a capture names a deadline ("by April 15," "before Friday," "due end of mon
 - **Parse the date to a concrete date**, and infer the year sensibly: a bare "April 15" means the *next* future April 15 relative to today. If the year genuinely matters and is ambiguous, that's worth one quick confirmation.
 - **Deadline ≠ do-it-now.** A due date is when it must be *done by*, not when to start. Keep the action on its context list; the "Due soon" view surfaces it as it approaches.
 - **A specific date *and time* you must be somewhere** (an appointment, a flight) is a calendar event, not a Next Action — route it to the client's calendar. A deadline with flexible timing stays a Next Action or Project with a Due date.
+- **A deadline is not a plan.** "By Friday" is a deadline → Due. "On Saturday I'll…" is intent → Planned. If a capture names both ("file it by Friday — I'll do it Thursday night"), set both.
 
 ## Reference and non-actionable captures
 
@@ -107,6 +109,8 @@ Degrade gracefully — never create garbage:
 - **Empty or whitespace-only** — nothing to file. If you're mid-conversation, say there's nothing there yet; otherwise just skip it. Don't create an empty row.
 - **Pure emoji or an indecipherable fragment** ("🎉", "asdf") — you can't honestly classify it. Ask one light question if the client is around ("Saw '🎉' in your inbox — what's that one about?"); if not, leave it in the Inbox rather than inventing meaning. Never fabricate an action from noise.
 - **Already done** ("booked the dentist ✓", "called the plumber") — this isn't a next action; don't create an open task. If the client keeps a done-log, you may record it in Next Actions with Status `Done`; otherwise acknowledge it and clear it from the Inbox. Default: don't add an open to-do for something already finished.
+
+**When you're the daily run rather than a conversation, the judgement gets written down.** Leaving noise sitting in the Inbox is right — but leaving no trace of having judged it is not, because the next run has no way to know you already looked, and the client ends up asked about the same "🎉" every day until they stop reading. The daily-run skill owns that mechanic and describes exactly how the verdict is recorded. Nothing above changes: you still never fabricate an action from noise, and an empty row is still left completely untouched.
 
 ## The confidentiality guard — someone else's private details never go in verbatim
 
@@ -225,6 +229,11 @@ These are the boundary cases the system must get right. Each shows the capture, 
 - **Write → Next Actions:** Name "Pack for the trip" · Context `@Home` · Status `Next` · Area `Personal` · a to-do checklist in the page body (clothes, toiletries, chargers, etc., inferred from context or asked about only if genuinely unclear).
 - **No Projects row.** Creating one here would flood the Projects list with something that isn't an outcome spanning time — it's one sitting's worth of steps.
 - **Clear the Inbox item.**
+
+### 16. Do-on-a-day intent — "Saturday I'll clean out the garage" (the Planned/Due/Defer boundary)
+- **Reasoning:** Actionable, committed, one step's worth of work — and it names the day the client *intends* to do it. That's not a deadline (nothing happens if Saturday slips), so Due would invent urgency. And they said the day out loud because they want to see it coming, so hiding it until Saturday with Defer would be wrong too. This is exactly what `Planned` records: visible the whole time, intent rather than obligation.
+- **Write → Next Actions:** Name "Clean out the garage" · Context `@Home` · Status `Next` · Planned `2026-08-01` (pinned canonical value — the first Saturday after the capture; re-anchor to the next Saturday if this verification runs after 2026-08-01) · Area `Household` · **Due empty · Defer empty.**
+- **Clear the Inbox item.** If Saturday passes and it didn't happen, the date is never overwritten and the item is never called overdue — it shows as *carried*, and the weekly review re-decides it.
 
 ---
 

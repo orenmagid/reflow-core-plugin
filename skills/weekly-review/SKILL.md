@@ -24,6 +24,8 @@ Two things kill a review, and both are on you to prevent. **Length** — anythin
 
 **Read the views, not the raw lists.** Each step of the walk below corresponds to one of the dashboard's saved views — "what got done," "stalled," "waiting," and so on. Read those *views*, not the underlying databases by query. This isn't only tidier: on a free Notion plan the two ways of reading draw from separate limited pools, and reading views keeps the whole walk in the more forgiving one. Read each view once as you gather; don't re-read.
 
+**One exception: carried plans live in no view.** An item planned for a day that has gone by and still not done is something the closing step re-decides, and no saved view shows it — so gather it with one direct look at the actions list (rows with a `Planned` date before today that aren't done), once, alongside everything else. One read, not a habit; everything else still comes from the views.
+
 ## How to talk during the walk
 
 Gather everything first — but deliver it as a conversation, never as a report. The failure mode was observed on the very first live walk: the whole review arrived as one long message with questions scattered through it, and not one of them got answered. A buried question isn't a question, and a review that ends with no decisions made has produced nothing but reading.
@@ -32,7 +34,7 @@ Gather everything first — but deliver it as a conversation, never as a report.
 - **A question is always the last thing in its message.** Ask it, stop, wait for the answer. Nothing ever comes after a question to push it out of view.
 - **One question at a time, even inside a step.** Three inbox stragglers are three small exchanges, not one message with three asks. Two stalled projects are two.
 - **Keep a light sense of place** — "that's three of the eight" — so the end is always visible. Being able to see the finish is part of what keeps fifteen minutes believable.
-- **When something deserves removing** — a stray row, a test leftover, noise — never offer to clear it yourself: the connection to Notion cannot delete anything *today*, and offering anyway is a promise that breaks at the click. Say what deserves removing and that it takes a moment in the Notion app. That dead end is temporary — a companion tool that restores deleting is planned, and when it lands these offers become real — but honesty about today is not optional.
+- **When something deserves removing** — a stray row, an accidental duplicate — never offer to clear it yourself: the connection to Notion cannot delete anything *today*, and offering anyway is a promise that breaks at the click. Say what deserves removing and that it takes a moment in the Notion app. That dead end is temporary — a companion tool that restores deleting is planned, and when it lands these offers become real — but honesty about today is not optional. **The setup's two test rows are not on this list** — see step 4.
 
 ## The walk — eight steps, in this order
 
@@ -48,7 +50,7 @@ Three kinds live here, and each needs a different move:
 
 - **Things nobody could work out.** These were left deliberately because filing them would have meant guessing. Now there's a person to ask. Ask about them — this is the one place in the whole system where asking is right, because they're sitting here anyway and the alternative is the item aging forever.
 - **Things with a repeat you couldn't parse** ("when the mood strikes"). Ask what rhythm they actually mean, or agree it's not a repeating thing at all.
-- **Things with nowhere to go** — noise, or something already handled. Acknowledge and move on. They may sit there a while longer; the system can't yet remove them, and pretending otherwise helps nobody.
+- **Things with nowhere to go** — noise, or something already handled. These mostly don't appear here anymore: the daily run ticks a hidden `Cleared` box on them, and a ticked row leaves this view on the spot with the judgement recorded for good. **Don't re-open a judgement that's been made.** If a straggler still shows up carrying an old written verdict in its note — from before the box existed — tick its `Cleared` box so it leaves too, and move on. The ticked rows still exist out of sight; truly removing them is the companion tool's job once it lands, and they cost nothing where they are.
 
 **If a straggler contains something confidential** — a person's name and a private detail about them — deal with it here rather than leaving it. It's been sitting in a place it shouldn't be. Take what's needed into the properly-filed version, and tell them plainly the original is still in the inbox and worth deleting by hand.
 
@@ -67,6 +69,8 @@ Walk them. Two questions, and the second is the one people skip:
 
 **Also notice what isn't here.** If a whole part of their life hasn't appeared in weeks — nothing about their work, nothing about their health — say so gently. Not as a reproach; just naming it is usually enough. This is the one moment the system can see the shape of their attention, and it's worth using.
 
+**The setup's two test rows are not a project to walk.** A test project and its one test action sit in the system on purpose — they are how the build proved its own wiring, and the setup makes them again if they ever go missing. If they come up, say once what they are and that **they can stay, and deleting them costs nothing**, then move on. Never put them on the client's cleaning list; the setup skill tells them the same thing in the same words, and this is the one place the two stories could contradict each other.
+
 ### 5. Waiting on other people
 
 Things handed off. For each, how long it's been. Anything sitting too long, offer the nudge — most dropped balls in anyone's life are things they handed over and then trusted silence about.
@@ -83,11 +87,15 @@ Most weeks this is short. Surface only what you think has come around — someth
 
 **About once a month, browse the whole thing** with them. That's often enough that nothing calcifies, rare enough that it stays interesting.
 
-### 8. One question to close
+### 8. Carried plans, then one question to close
+
+First, anything *carried* — planned for a day that has since gone by and still not done. These aren't late and they aren't failures; they're plans that slipped, and each one gets re-decided here rather than left to pile up. Three honest outcomes, offered one item at a time: a new day (write a fresh `Planned` date), back to the regular list (clear the date), or released entirely. Never the word "overdue," and never roll a date forward on their behalf — re-deciding is the client's move, which is exactly why it happens here and not in the nightly tidy-up.
+
+Then:
 
 *"Anything you want to make sure happens this week?"*
 
-One question. Whatever they say becomes real — an action, a due date, a project. This gives the week a spine without turning the review into a planning session, and it ends on intent rather than admin.
+One question. Whatever they say becomes real — and when it's a "this week" intent, it lands as a `Planned` date on the action: visible the whole time, a plan rather than a deadline. A genuine deadline still goes in Due; a whole outcome becomes a project. This gives the week a spine without turning the review into a planning session, and it ends on intent rather than admin.
 
 ## Afterwards
 

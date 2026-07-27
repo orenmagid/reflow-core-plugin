@@ -18,7 +18,11 @@ This builds the thing every other skill writes into. It runs with the client the
 
 **Check before you create, always.** Never assume you are starting from nothing. Re-running this is meant to be safe and boring — it should find its own previous work and leave it alone. If re-running would produce a second copy of anything, you have got it wrong.
 
-That is good practice under any circumstances; nobody wants a workspace with two lists called "Next Actions" and no way to tell which is real. But right now it carries extra weight, because **cleaning up afterwards is not currently possible.** The connection to Notion has no way to delete a database, a field, or a row — so today, a mistake is permanent furniture in someone's workspace.
+That is good practice under any circumstances; nobody wants a workspace with two lists called "Next Actions" and no way to tell which is real. And check-before-create still carries real weight, because cleanup is uneven — corrected 2026-07-27, since an earlier version of this paragraph said nothing could ever be deleted and that is wrong in two of three cases:
+
+- **A field CAN be removed** (drop the column — executed and verified, including on a column holding data). **But dropping a column destroys whatever data is in it**, so removal is never free — and removing a column that a formula or view filter depends on is untested territory. Treat field removal as a repair tool, not an undo button.
+- **A whole database CAN be archived** (executed and verified) — a duplicate from a failed build is recoverable, not permanent.
+- **A single row still cannot be deleted or trashed** — this is the one true permanence, and the reason stray rows are named honestly rather than hidden.
 
 **That is a gap in the connection, not a limit of Notion**, and it is being closed: a companion tool is planned that will restore deleting. Where this skill tells you to stop rather than risk something, or to leave something in place and explain it, that is a *temporary* accommodation and is marked as such. The careful checking stays either way. The dead ends go away.
 
@@ -41,11 +45,15 @@ Look for previous work, in this order:
 
 **If you can't complete this search — you've run out of the plan's allowance for reading, or something errors — stop and say so.** Do not build on a partial look. This search is the only thing standing between a second run and a permanent duplicate, so when it can't be trusted, nothing after it can be either.
 
+**While you are in their settings, look at the timezone — and ask for it only if nobody has.** If it still holds the shipped placeholder or is blank, ask one short question now and write the answer in as Step 8 describes. **If it already holds a real value, do not ask and do not touch it.**
+
+It has to happen here, and it has to happen with them. A few steps from now this build stamps real calendar dates into view filters, so getting the day wrong seeds the drift on the very first day. And this is the only moment in the system's whole life when a person is reliably present to answer — every run after this one happens with nobody there. A system whose timezone was never collected runs in UTC forever: from late afternoon on the west coast and early evening in the east, it already thinks it is tomorrow, so dated views get stamped a day ahead and repeating things come back early. Nobody would ever trace that back to a setting nobody asked about.
+
 ## Step 3 — The five lists
 
 **Inbox**, **Next Actions**, **Projects**, **Someday / Maybe**, and **Reference**. (Note the spaces around the slash — that's part of the name, and names are matched exactly.)
 
-For each, create it or adopt what's there, then bring its fields to match the specification. Don't work from memory of what the fields are — read them, every time. There are thirty-one across the five lists and several are easy to get subtly wrong.
+For each, create it or adopt what's there, then bring its fields to match the specification. Don't work from memory of what the fields are — read them, every time. There are thirty-five across the five lists and several are easy to get subtly wrong.
 
 - **Adding a missing field is safe.** Do it, and mention it.
 - **A field of the wrong type is not.** Notion will often accept the change and lose data doing it, and field structure isn't covered by page history — so there's no getting it back. **Stop, and say plainly what's wrong.** Never convert it and hope.
@@ -76,7 +84,9 @@ Build the ten views to specification — type, filter, grouping, sort, and **exa
 
 Notion creates a default view with every new database and it can't be removed. **Rename and reuse it as that database's first view** rather than building alongside it and leaving something unnamed behind forever.
 
-Dates in filters are written in as real, exact dates, because there's no way to say "today" that keeps up on its own. That's expected — the daily run re-stamps them. Set them to today's actual date as you build.
+Dates in filters are written in as real, exact dates, because **the connection you are building through** has no way to say "today" that keeps up on its own. That's expected — the daily run re-stamps them. Set them to today's actual date as you build.
+
+_(Notion itself can do relative dates; the tools you have here cannot. Don't record this as something Notion can't do — it is a limit of this connection only, and a planned supplemental connection will remove it, at which point these filters become self-maintaining and the re-stamp goes away.)_
 
 **Never write the literal word "today" into a date filter.** It looks like it should work, and the connection *accepts* it without complaint — but it stores a dead value that matches nothing, so the view comes back permanently empty and nothing tells you it broke. This was confirmed the hard way. Always compute today's real date and write that exact date; a filter with "today" in it is a silently broken view, which is worse than an obvious error.
 
@@ -106,7 +116,9 @@ Also check the main "what can I do now" view, since its filter is the fiddliest 
 
 **Leave both test rows at rest carrying no dates and no completion date** — Status `Next`, nothing else. No completion date keeps them out of "what got done," which is where the weekly review opens; no deferred or due date keeps them out of the "coming back" and "due soon" views, which the review also walks. Nobody's first review should start with rows called "test." Name them so their purpose is obvious, and mention them at handover so they're never a small mystery.
 
-On a re-run, reuse the same two test rows rather than making more. *Once the companion delete tool exists, simply remove them when the check passes* — the whole business of retiring them gracefully is a workaround for not being able to tidy up.
+On a re-run, reuse the same two test rows rather than making more.
+
+**One story about these rows, and every skill tells it the same way: they can stay, and deleting them costs nothing** — a later setup run simply makes them again. They are the build's own proof that the wiring works, not litter left behind. So never hand them to the client as something needing cleaning up, and never let the weekly review do it either; the review has its own instruction to leave them alone, and the two must not drift apart. *Once the companion delete tool exists, the check can simply remove them when it passes* — but until then, "they can stay" is the honest answer and the only one anybody should hear.
 
 ## Step 8 — Write down where everything is
 
@@ -114,7 +126,9 @@ Record each list's address in the client's settings **as you create it**, not in
 
 Record the page you built under, and stamp the structure's version so a later run can tell what predates a change.
 
-**Their settings file is theirs. Read what's there and change only the addresses.** Their contexts, their timezone, how they answered about confidential records, how they like being spoken to — all of that lives in the same place, and replacing the file wholesale would wipe it. That would be this system doing exactly the thing it promises never to do.
+**Their settings file is theirs. Read what's there and change only the lines you have something new for** — the five addresses, the page you built under, the schema version, and the timezone if you asked for it in Step 2 because it was blank. Splice each one into the file in place. **Never rewrite the file from the template and never re-emit it whole:** their contexts, their categories, how they answered about confidential records, how they like being spoken to, and any timezone they had already set all live in the same file, and a wholesale replacement wipes every one of them. That would be this system doing exactly the thing it promises never to do.
+
+**A value they have already filled in is never yours to change.** If the timezone holds a real value and you have reason to think it's wrong, say so and let them decide — don't correct it on their behalf.
 
 ## Step 9 — Tell them what you did
 
@@ -122,7 +136,7 @@ Plainly, and in their terms — five lists, a review page, and the wiring that k
 
 Say three things that would otherwise become small mysteries:
 
-- The two test rows, and that they can stay.
+- The two test rows — what they are, and that **they can stay, and deleting them costs nothing**, because a later setup run simply makes them again.
 - Anything you repaired or couldn't, especially a field you had to stop on.
 - That Notion's own starter pages are still sitting there. Every new Notion workspace comes with them and there's no way to start without them. Offer to clear them out — through the browser today, directly once the companion delete tool exists.
 
@@ -132,5 +146,5 @@ Say three things that would otherwise become small mysteries:
 - Create anything without checking whether it already exists.
 - Convert a field to a different type.
 - Carry on after a search you couldn't finish.
-- Replace their settings file rather than editing part of it.
+- Replace their settings file rather than splicing into it, or overwrite a value they had already filled in.
 - Report the system as built when a link in the chain is missing — a half-built system is worse than an unbuilt one, because it looks finished.
