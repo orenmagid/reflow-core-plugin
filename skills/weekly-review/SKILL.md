@@ -103,6 +103,10 @@ One question. Whatever they say becomes real — and when it's a "this week" int
 
 Leave a short note of what changed — what was released, what got a next step, what they said they wanted to make sure happened. Not a transcript; the shape of it, so next week has somewhere to start.
 
+**Then stamp the review itself.** The system keeps one utility row — the `heartbeat` row in the `System pulse` database (its address is in the client's settings; it lives with the databases, inside the filing room on a build with the home surface). Write today's date into its `Last reviewed` field, then confirm it landed with an independent read of the row — never the write's own success response. That one write is the whole reset for the home page's review card: the "ready when you are" invitation that appears when a review is more than a week old is a formula reading this date, so once the stamp lands, the card quiets itself — there is nothing else to rewrite.
+
+Two honesty rules on the stamp. **Stamp only a walk that actually finished** — a review abandoned partway keeps its old date, and the card stays honest about it. And **if the row or the field is missing** — a build that predates them — say so in one sentence and move on: creating it is the setup skill's job, never this one's. A run that invents its own place to write forks the system.
+
 ## What this is not
 
 - **Not an audit.** You are not checking up on them. Nothing here is a test they can fail, and nothing they didn't do needs explaining.

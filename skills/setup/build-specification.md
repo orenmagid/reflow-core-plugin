@@ -23,11 +23,11 @@ That last part is the one piece of the whole structure that exists to catch the 
 
 The build creates this block with placeholder text. The daily run rewrites it; it never has to create it.
 
-**Notices need no structure of their own.** When Claude leaves something out of a filed item for confidentiality, the explanation goes in the **page body of the action it concerns** — where it stays as long as the action does, and where the weekly review finds it. The status block carries only a count and a pointer. This deliberately avoids a sixth database: the note belongs with the thing it is about, not in a separate pile.
+**Notices need no structure of their own.** When Claude leaves something out of a filed item for confidentiality, the explanation goes in the **page body of the action it concerns** — where it stays as long as the action does, and where the weekly review finds it. The status block carries only a count and a pointer. This deliberately avoids a dedicated notices database: the note belongs with the thing it is about, not in a separate pile. (The one non-list database that does exist — System pulse, below — holds no client content at all; it is the system's own two dates and two formulas.)
 
 ## Naming — pinned
 
-Database **titles carry no emoji**: `Inbox`, `Next Actions`, `Projects`, `Someday / Maybe`, `Reference`. The emoji shown throughout this document are set as each database's **icon**, which is a separate thing in Notion. Note the spaces around the slash in `Someday / Maybe` — they are part of the name.
+Database **titles carry no emoji**: `Inbox`, `Next Actions`, `Projects`, `Someday / Maybe`, `Reference`, `System pulse`. The emoji shown throughout this document are set as each database's **icon**, which is a separate thing in Notion (System pulse gets none — it is plumbing, not a shelf). Note the spaces around the slash in `Someday / Maybe` — they are part of the name.
 
 Matching an existing database is **exact, case-sensitive, on the plain title**, scoped to children of the target page and never workspace-wide.
 
@@ -47,8 +47,8 @@ Matching an existing database is **exact, case-sensitive, on the plain title**, 
 | Next Actions | Project | Relation → Projects | dual-property; creates `Actions` on Projects |
 | Next Actions | Due | Date | — |
 | Next Actions | Planned | Date | added 2026-07-26; ships with core v0.1.12 (act:f8b9b7ac) |
-| Next Actions | Done? | Checkbox | her done-signal; the daily run reconciles it into `Status`/`Completed` — ships with the skin build |
-| Next Actions | Surfaced | Checkbox | Claude-managed home-tier flag; hidden in every view — ships with the skin build |
+| Next Actions | Done? | Checkbox | her done-signal; the daily run reconciles it into `Status`/`Completed` — **created by setup, ships with core v0.1.12** (ownership settled 2026-07-29, act:f4057d14; the skin build verifies and stops if absent, never creates) |
+| Next Actions | Surfaced | Checkbox | Claude-managed home-tier flag; hidden in every view — **created by setup, ships with core v0.1.12** (ownership settled 2026-07-29, act:f4057d14; the skin build verifies and stops if absent, never creates) |
 | Next Actions | Defer | Date | — |
 | Next Actions | Repeat | Text | — |
 | Next Actions | Area | Select | `Household`, `Kids & school`, `Practice (admin)`, `Health`, `Personal` |
@@ -72,6 +72,11 @@ Matching an existing database is **exact, case-sensitive, on the plain title**, 
 | Reference | Category | Select | `Household`, `Accounts & logins`, `Health`, `Travel`, `Contacts`, `Other` |
 | Reference | Detail | Text | — |
 | Reference | Added | Created time | — |
+| System pulse | Name | Title | exactly one row, titled `heartbeat` — **created by setup, ships with core v0.1.15** (ownership per act:f4057d14's precedent, extended 2026-07-29, act:ac728379; the skin build verifies and stops if absent, never creates) |
+| System pulse | Last checked | Date | the daily run's heartbeat stamp — the staleness sentinel's feed; seeded with the build date at creation |
+| System pulse | Pulse message | Formula | expression below — the sentinel's honest sentence, empty when fresh |
+| System pulse | Last reviewed | Date | stamped by the weekly review when a walk completes; seeded with the build date at creation (the sitting is a genuine full look-over, and the review rhythm starts counting from it) |
+| System pulse | Review pulse | Formula | expression below — the review card's ripening text, empty for a week after each review |
 
 **Status is `Select`, not Notion's dedicated `Status` type.** Notion's own default for a task-shaped database is the `Status` type, so a build that guesses will guess wrong. The "(default)" noted against `Next` above is a convention Claude follows when writing, not a property setting — `Select` has no default-value concept.
 
@@ -87,9 +92,28 @@ Next?     (prop("Status") == "Next" or prop("Status") == "Waiting") ? 1 : 0
 Stalled   (prop("Status") == "Active" and prop("Open next actions") == 0) ? "STALLED" : ""
 ```
 
+The System pulse's two formulas, same rule — exact strings, written as given (the platform compiles `prop("…")` references to internal ids on store, so a stored expression will not read back verbatim; verification is behavioral — the skin build's drills — never a string comparison of the stored expression):
+
+```
+Pulse message   if(empty(prop("Last checked")), "", if(dateBetween(now(), prop("Last checked"), "days") < 2, "", if(dateBetween(now(), prop("Last checked"), "days") < 7, ("I haven't checked in since " + formatDate(prop("Last checked"), "dddd")) + " — the lists below may be behind.", ("I haven't checked in since " + formatDate(prop("Last checked"), "MMMM D")) + " — the lists below may be behind.")))
+
+Review pulse    if(empty(prop("Last reviewed")), "", if(dateBetween(now(), prop("Last reviewed"), "days") < 7, "", if(dateBetween(now(), prop("Last reviewed"), "days") < 14, "It's been about a week since our last review — fifteen minutes whenever you're ready, and we start with what got done.", ("We haven't had a review since " + formatDate(prop("Last reviewed"), "MMMM D")) + " — no rush, and nothing is lost. Whenever you're ready, we'll start with the good part.")))
+```
+
 `Stalled` returns **text**, never a checkbox or boolean. The boolean form was built during Phase 1a verification and degraded into a brittle string comparison. This matters more than it looks: a boolean `Stalled` passes every "does this property exist?" check while the view filtering `Stalled = "STALLED"` matches nothing — leaving the single most important view in the system permanently empty, which is exactly what a healthy system also looks like.
 
 **A waiting action counts as live — decided 2026-07-23, after the first in-product build made the alternative observable.** `Next?` returns 1 for `Waiting` as well as `Next`: a project blocked on someone else's reply *has* a next step, so it does not belong in "⚠ Stalled — needs a next action" — the Waiting-for view and the weekly review own the blocked case, with who and since. The earlier formula counted only `Next`, which would have flooded the system's loudest view with projects the client can't act on, teaching her to ignore the one view that must never be ignorable. The Phase 1a reference build and the first throwaway build (2026-07-23) carry the old formula; any build predating this note needs `Next?` rewritten on its next setup run.
+
+## The System pulse — plumbing, created by setup
+
+_Added 2026-07-29 (act:ac728379), pulling the whole database into this specification under the ownership rule act:f4057d14 set: **setup creates schema; the skin build verifies and stops.** Before this, the skin build script was the only thing that created System pulse — which meant a system without the home surface had no place for the daily run's heartbeat stamp, and a weekly review had no place for its last-reviewed date. Now every build has both from day one._
+
+- **What it is.** One utility database titled exactly `System pulse` (no emoji), holding **exactly one row, titled `heartbeat`**, with the four working properties in the table above and the two formulas stated literally above. It carries no client content, ever — two dates the system writes, two sentences the platform computes.
+- **Where it lives.** Setup creates it as a child of the target page, beside the five lists. On a build with the home surface, the skin build moves all six databases into "The filing room" child page — so on an existing built system, adopt-by-address first (its address is recorded in the client's settings like the five lists'), and when searching by name, look both directly under the target page *and* inside a child page titled `The filing room`.
+- **Seeding, pinned.** At creation, both `Last checked` and `Last reviewed` are seeded with the build date — honestly: the sitting reads every list and walks the whole structure with the client, and the review rhythm starts counting from it. On an **adopt** (the row exists), existing date values are never overwritten; a *newly added* or empty date is seeded with today's date, said out loud ("the review rhythm starts counting from today"). An empty `Last reviewed` is worse than a seeded one — the review card can never ripen off an empty date, so it would sit dead forever.
+- **Who writes what, forever after.** The daily run stamps `Last checked` (its heartbeat — a claim of "I read your lists today," never stamped by a starved run). The weekly review stamps `Last reviewed` when a walk completes. Nothing else writes here, and **no run ever creates any of this** — a missing row or property means the structure predates core v0.1.15, and the fix is a setup run.
+- **What setup can and cannot verify.** The dates are plain properties — read them back after writing. The formulas' rendered text is **invisible through the connector (F-2)** — setup must never claim to have verified the sentences; the skin build script reads formula output through the REST API and drills both formulas in both directions (stale → sentence, fresh → silence). Division of proof, stated so nobody blurs it.
+- **Views over it are skin-layer, not setup's.** The two home-page views — the staleness sentinel ("in case I go quiet", filter `Last checked` before `yesterday`) and the review card ("ready when you are", filter `Last reviewed` on or before `one_week_ago`) — use relative-date filters the connector cannot write (F-9), so the skin build script creates them. Setup builds **no views** on System pulse and leaves its default view alone (it lives with the plumbing; pre-skin it sits under the target page showing two dates and at most two honest sentences — harmless). Design and wording of the review card: `docs/skin/skin-spec.md`, the review-trigger section. The card's 7-day appear threshold is deliberately encoded twice (view filter + the formula's silence boundary — change both together), exactly like the sentinel's 2-day threshold.
 
 ## Views — complete
 
@@ -115,7 +139,7 @@ Hidden in **every** view listed: `Next?`, `Stalled`, `Area`, `Completed`, `Occur
 _This paragraph used to say there was "no relative-date fallback" and that relative filters were "off the table." That was wrong about Notion and it cost the project real time — two separate sessions re-derived the constraint from scratch and designed elaborate machinery around it._
 
 - **True, and re-verified 2026-07-26:** the *first-party connector's* view filter language has no relative-date operator of any kind, and the literal word `"today"` is **accepted without error but stored as a dead value matching zero rows** — a silently-empty view, no warning. **Never write `"today"` through the connector.**
-- **★ False, and disproven by execution 2026-07-26/27: Notion cannot do relative view filters.** It can. Notion's own REST API stores `{"date":{"on_or_before":"today"}}` verbatim, returns the correct rows, renders as a relative chip in the web UI, and — the question that actually mattered — **stays live rather than freezing at creation.** A view left untouched for a day correctly admitted a row whose date had crossed in overnight. So the self-maintaining option is real; it simply cannot be reached through the connector.
+- **★ False, and disproven by execution 2026-07-26/27: Notion cannot do relative view filters.** (ledger row **F-9** — the gap was the *connector's*, never the platform's.) It can. Notion's own REST API stores `{"date":{"on_or_before":"today"}}` verbatim, returns the correct rows, renders as a relative chip in the web UI, and — the question that actually mattered — **stays live rather than freezing at creation.** A view left untouched for a day correctly admitted a row whose date had crossed in overnight. So the self-maintaining option is real; it simply cannot be reached through the connector.
 
 **What this means for the build, in order.** A freshly connector-built view carries exact dates (views 2, 4, 5, 6) and goes stale as the calendar advances; **until its one-time conversion, re-stamping it is the daily run's job, and the run must name all four views rather than "the dated views"** (a run that re-stamped only some left `Done (recently)` ten days stale, undetected). **The conversion — `scripts/convert-views-to-relative.mjs`, run once per build against Notion's own API — upgrades all four filters to live relative values, after which the daily run detects them and leaves them alone.** ★ **The reference build was converted 2026-07-27**; a client build gets the same one-time script at onboarding, using the same token the extender already holds on her machine. An item deferred to a date that has since arrived falls out of view 2 *and* view 5 simultaneously and becomes invisible in both — that is the failure class the conversion retires.
 

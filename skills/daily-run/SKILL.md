@@ -147,6 +147,21 @@ Then clear the flag on everything you didn't choose this run. Yesterday's choice
 
 **Two things you never do here.** Never change `Planned` itself — a slipped plan keeps its original date, because the date *is* the record the weekly review re-decides from; rolling it forward would quietly erase the truth. And never describe a carried item as overdue, late, or behind — it is *carried*: still here, nothing lost. Overdue is for deadlines, and a plan is not a deadline.
 
+### Then say it in the page's own words
+
+Ticking the flag decides *what* the home page shows. The page's short lines of prose are what make it read as calm rather than as a dashboard, and they go stale the moment the lists move underneath them. **A stale line is worse than no line**, because the client has no way to tell it is stale — it looks exactly like a fresh one.
+
+**If the home page has none of these lines, it predates the surface — skip this and say so once in the summary.** Never invent a line the build didn't put there, and never add a second copy of one you cannot find. You are always rewriting a block that exists.
+
+Find each by its role on the page, not by remembering an address — the build differs per client:
+
+- **The greeting and the date line** at the very top. Time of day and the real date in the client's configured timezone. If the timezone is blank you are running in UTC, and you say the date plainly rather than guessing at their morning.
+- **The lead action** — the single gray line under the "right now" heading, offering one thing worth doing: *"If you've got ten minutes: call the pharmacy about the refill."* Pick it from the guaranteed tier you just ticked, favouring something genuinely small. If nothing qualifies, a warm true sentence beats a manufactured suggestion.
+- **The toggle labels** — the collapsed lines that say how much is held back and what is carried. Each carries a count when there is something inside and a **warm sentence when there is nothing**: "nothing carried right now" is the calm state and reads better than a zero. The same applies to the scent lines on the section headings ("8 projects · every one has a live next step") — and **only say that if you checked it**; a scent line asserting nothing is stalled, when you never looked, is the most quietly corrosive line on the page.
+- **The empty-state sentences** — where a view has gone empty, its warm callout shows; where it has filled again, that callout goes away. Notion renders its own "no results" chrome and you cannot change it, so these swapped sentences are the only warmth available there.
+
+Every one of these is prose about live numbers, so **write them from the rows you actually read this run**, never from what you expect them to be. If a budget ran out and you could not read a list, leave that list's line alone rather than writing a confident sentence about data you never saw.
+
 ## Step 7 — Keep the dated views honest
 
 Some views filter on a date that was written in when they were built, not one that moves on its own. Left alone, they drift: an item that was deferred until a date that has since arrived falls out of the "what can I do now" view *and* out of the "coming back later" view, and becomes invisible in both. Nothing is more corrosive than a commitment the system quietly stops showing.
@@ -181,6 +196,8 @@ _The name-them-all rule has already cost something once: a check of a real build
 - Every row you cleared this run actually reads back ticked — **one batched query covering all of them** (never per-row, never the page render that just accepted the write; a render can echo a write that never landed, and a verdict that didn't land means the same question tomorrow). **This check runs BEFORE any trashing** — the trash list waits until these ticks are confirmed.
 - Every row you then trashed reads back in the trash — one batched independent read covering them all, never the call's own success response. A removal you didn't confirm is a removal you may not claim.
 - If any work waited because a read budget was spent, the summary names that constraint in plain words. A run that was starved is never allowed to read as a run that found nothing to do.
+- **Every line of prose you rewrote on the home page matches the numbers you actually read this run** — greeting and date, the lead action, both toggle labels, the scent lines, any empty-state sentence you swapped. A line you updated from memory of last run, or from an expectation rather than a read, is the failure this check exists for. Any line you deliberately left alone because you couldn't read its list is named in the summary, not silently skipped.
+- **You wrote to blocks that already existed** — one greeting, one date line, one status callout, one heartbeat row. If you could not find one, you said so rather than creating a second. Two status callouts on a page is a system arguing with itself in front of the client, and the older one never goes away on its own.
 
 Then rewrite the status block on the `My System` page — the callout the setup put there for exactly this. You are always rewriting it, never creating it; if it is genuinely missing, say so rather than improvising a second place to write, because a summary nobody can find is the same as no summary.
 
@@ -194,7 +211,11 @@ Keep it short, warm, and **honest above all**:
 - What came back around, as a count rather than a list.
 - Never claim an empty Inbox unless nothing unjudged is actually left waiting.
 
-**Then record that you ran.** Stamp the time of this run somewhere durable — and if the run was starved, the stamp's own line says so, so a string of starved runs can never masquerade as a string of healthy ones. This matters more than it sounds: if this stops working — a connection expires, a task gets deleted, a plan stops supporting it — the client sees an Inbox with things in it, which is *exactly* what they see when everything is fine and they simply captured a few things. Silence looks identical to health. So if the last successful run is older than the configured threshold, say so plainly where they will see it. Nobody else can notice this for them; by design, nobody else can see their system at all.
+**Then record that you ran — on the heartbeat row, which is the specific durable place.** The system carries a one-row utility list (a "System pulse" table, kept out of the client's way in the filing room) whose single row holds a `Last checked` date. Stamp today's date there, and understand what you are stamping: **a formula on that row renders the staleness sentence on the home page, and a view filter shows the row only once the date is two days old.** That one date is the whole mechanism by which the page can admit the runs have stopped. Nothing else keeps the sentinel dormant, and no other write substitutes for it. If the row isn't there, the structure predates it — say so in the summary and carry on; never build a second one to write to.
+
+**And the stamp is a claim, so a run that cannot honestly make it does not make it.** `Last checked` means *I looked at your lists today* — not *I executed*. If a read budget ran out and lists went unread, or you could not reach the workspace, **leave the date alone and say why in the summary.** The sentinel then fires on its own a day or two later and tells the client the truth: nothing has properly checked in. That is the system working. Stamping anyway would silence the one signal designed to survive your own failure — the single most damaging write available to you, because it makes a degraded system look serene.
+
+Beyond the heartbeat, if the run was starved, the summary's own line says so, so a string of starved runs can never masquerade as a string of healthy ones. This matters more than it sounds: if this stops working — a connection expires, a task gets deleted, a plan stops supporting it — the client sees an Inbox with things in it, which is *exactly* what they see when everything is fine and they simply captured a few things. Silence looks identical to health. So if the last successful run is older than the configured threshold, say so plainly where they will see it. Nobody else can notice this for them; by design, nobody else can see their system at all.
 
 **Anything that must survive being unread does not go in the status block**, because you rewrite that every run — a note left on Monday is gone by Tuesday. Above all this applies to something you left out for confidentiality, which is the highest-stakes thing you ever have to say.
 
@@ -210,3 +231,6 @@ Those go in the **page body of the action they concern**, where they stay as lon
 - Describe a repeating item as though the client is behind on it.
 - Change a `Planned` date, or describe a slipped plan as overdue, late, or behind — a plan that slipped is *carried*, and its original date is the record.
 - Weaken the confidentiality strip because nobody was around to be told.
+- **Stamp `Last checked` on a run that could not actually check** — a spent budget, an unreachable workspace, lists you never read. The stamp claims you looked; making it falsely silences the one signal built to survive your own failure, and leaves a degraded system looking serene.
+- Create a second greeting, date line, status callout, or heartbeat row because you could not find the first. Say it is missing instead; a duplicate is permanent and the client sees both.
+- Write a count, a scent line, or an empty-state sentence from what you expected the list to hold rather than from rows you read this run.

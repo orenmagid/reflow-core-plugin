@@ -45,7 +45,7 @@ Look for previous work, in this order:
 
 **If you can't complete this search — you've run out of the plan's allowance for reading, or something errors — stop and say so.** Do not build on a partial look. This search is the only thing standing between a second run and a permanent duplicate, so when it can't be trusted, nothing after it can be either.
 
-**While you are in their settings, look at the timezone — and ask for it only if nobody has.** If it still holds the shipped placeholder or is blank, ask one short question now and write the answer in as Step 8 describes. **If it already holds a real value, do not ask and do not touch it.**
+**While you are in their settings, look at the timezone — and ask for it only if nobody has.** If it still holds the shipped placeholder or is blank, ask one short question now and write the answer in as Step 9 describes. **If it already holds a real value, do not ask and do not touch it.**
 
 It has to happen here, and it has to happen with them. A few steps from now this build stamps real calendar dates into view filters, so getting the day wrong seeds the drift on the very first day. And this is the only moment in the system's whole life when a person is reliably present to answer — every run after this one happens with nobody there. A system whose timezone was never collected runs in UTC forever: from late afternoon on the west coast and early evening in the east, it already thinks it is tomorrow, so dated views get stamped a day ahead and repeating things come back early. Nobody would ever trace that back to a setting nobody asked about.
 
@@ -98,7 +98,20 @@ Put a callout near the top of `My System` with placeholder text. The daily run r
 
 It's a small thing that does something nothing else does: it says when the system last ran. If the daily run ever quietly stops, the client sees items sitting in her Inbox — which is exactly what she sees when everything is fine and she's just captured a few things. Nothing else would ever tell her, and nobody else can look at her system to notice for her.
 
-## Step 7 — Prove it actually works
+## Step 7 — The system's pulse row
+
+One small utility database, `System pulse`, holding exactly one row titled `heartbeat`. The rest of the product writes into it and reads from it: the daily run stamps its `Last checked` date every run, the weekly review stamps `Last reviewed` when a walk completes, and two formulas turn those dates into the only sentences the home page can show honestly with no run behind them — the "I haven't checked in since…" warning and the "ready when you are" review invitation. The specification has the exact schema and both formula strings; write the formulas character-for-character, never from memory.
+
+Build it like everything else — **check before you create**:
+
+- It may already exist in one of two places: directly under the target page, or inside a child page called `The filing room` (a build that already has the home surface keeps all its databases there). The recorded address in their settings wins; failing that, look by exact name in both places.
+- **Create:** the database, the one `heartbeat` row, and seed *both* dates with today's date. That is honest, not decorative — this sitting reads every list and walks the whole structure with the client, and the review rhythm starts counting from it.
+- **Adopt:** bring the properties up to the specification (adding a missing field is safe — the same rules as Step 3). Never overwrite a date that already holds a value; a newly added or empty date gets today's date, and you say so plainly ("the review rhythm starts counting from today"). Never make a second row — if extra rows exist somehow, use the one titled `heartbeat` and say what you found.
+- **Verify what you can actually see.** Read the row back and confirm both dates landed. The formulas' computed sentences are invisible through this connection — that is a known limit, not a fault — so never claim to have checked what they say; a later step of the build (the home-surface script) proves them by drilling.
+
+This row is the one place those stamps live. No run is ever allowed to invent its own place to write, so if this step is skipped the daily run and weekly review both end up with a duty and no home for it.
+
+## Step 8 — Prove it actually works
 
 You can't read the rollup's value back — the connection doesn't expose it. So the only real proof is watching the stalled view change.
 
@@ -120,19 +133,29 @@ On a re-run, reuse the same two test rows rather than making more.
 
 **One story about these rows, and every skill tells it the same way: they can stay, and deleting them costs nothing** — a later setup run simply makes them again. They are the build's own proof that the wiring works, not litter left behind. So never hand them to the client as something needing cleaning up, and never let the weekly review do it either; the review has its own instruction to leave them alone, and the two must not drift apart. *When the companion delete tool is reachable this sitting, the check can simply remove both rows once it passes* — confirm each is genuinely gone with an independent read, and then there is nothing to hand over at all. When it is not reachable, "they can stay" is the honest answer and the only one anybody should hear.
 
-## Step 8 — Write down where everything is
+## Step 9 — Write down where everything is
 
 Record each list's address in the client's settings **as you create it**, not in one batch at the end. A build that gets interrupted near the end would otherwise leave a complete system with no record of itself, and the next run would have to fall back to guessing by name — at exactly the moment when getting it wrong is most expensive.
 
 Record the page you built under, and stamp the structure's version so a later run can tell what predates a change.
 
-**Their settings file is theirs. Read what's there and change only the lines you have something new for** — the five addresses, the page you built under, the schema version, and the timezone if you asked for it in Step 2 because it was blank. Splice each one into the file in place. **Never rewrite the file from the template and never re-emit it whole:** their contexts, their categories, how they answered about confidential records, how they like being spoken to, and any timezone they had already set all live in the same file, and a wholesale replacement wipes every one of them. That would be this system doing exactly the thing it promises never to do.
+**Their settings file is theirs. Read what's there and change only the lines you have something new for** — the five list addresses plus the System pulse's, the page you built under, the schema version, and the timezone if you asked for it in Step 2 because it was blank. Splice each one into the file in place. **Never rewrite the file from the template and never re-emit it whole:** their contexts, their categories, how they answered about confidential records, how they like being spoken to, and any timezone they had already set all live in the same file, and a wholesale replacement wipes every one of them. That would be this system doing exactly the thing it promises never to do.
 
 **A value they have already filled in is never yours to change.** If the timezone holds a real value and you have reason to think it's wrong, say so and let them decide — don't correct it on their behalf.
 
-## Step 9 — Tell them what you did
+## Step 10 — Check your own work, then tell them what you did
 
-Plainly, and in their terms — five lists, a review page, and the wiring that keeps projects from going quiet. Not a schema.
+**Before you report anything, read the build back — a handover records what exists, never what you intended.** The connection this build goes through has returned success for writes it did not perform, and its view tools have silently dropped filter clauses they didn't support (that is how the rollup gap was discovered) — so a clean build transcript proves nothing on its own. Step 8 already proved the plumbing chain behaves; this check covers everything Step 8 doesn't. Confirm each of these by reading it back fresh:
+
+- **All ten views, by name — "the views" is not a list.** Each one's filter, sort, and visible columns match the specification. Sampling is how a real build once carried a filter ten days stale while every check reported fine.
+- **No date filter anywhere stores the literal word "today."** The connection accepts it without complaint and stores a dead value matching nothing — a permanently, silently empty view. Every dated filter holds either today's real date (a fresh build, awaiting the one-time conversion) or a relative word (an adopted, already-converted build you left alone).
+- **The fields, read back from the five lists' actual schemas** — all thirty-five, against the specification, not against the creation calls having succeeded. Types especially: a field that landed with the wrong shape looks fine until the first write into it disappears.
+- **The status block exists on the page.** The daily run can only rewrite what is already there; a build that skipped it leaves every future run with nowhere honest to speak.
+- **The addresses you recorded in Step 9 read back from the settings file** — open it and look. A recorded address that didn't land sends the next run back to guessing by name, at exactly the moment guessing is most expensive.
+
+If any of these fails, fix it and read it back again before saying a word about the build being done — a half-built system that reports itself finished is the one outcome this skill exists to prevent.
+
+Then tell them what you did — plainly, and in their terms: five lists, a review page, and the wiring that keeps projects from going quiet. Not a schema.
 
 Say three things that would otherwise become small mysteries:
 
@@ -148,3 +171,4 @@ Say three things that would otherwise become small mysteries:
 - Carry on after a search you couldn't finish.
 - Replace their settings file rather than splicing into it, or overwrite a value they had already filled in.
 - Report the system as built when a link in the chain is missing — a half-built system is worse than an unbuilt one, because it looks finished.
+- **Ask the client to attach a folder wider than their Claude folder — ever, for any reason.** They hand you one folder and that is the whole of your reach on their machine. If something you are doing appears to need a file outside it, say plainly what you need and stop; moving that file in is their deliberate act, and it is the only way in. A widened folder is not a small convenience: inside an attached folder you can read, change and permanently delete every file the client's own account can reach, and nothing narrows that again afterwards. This holds even when the client offers — "just take my whole Documents folder" is a yes to something they have not been shown the size of, and the right answer is the narrower one.

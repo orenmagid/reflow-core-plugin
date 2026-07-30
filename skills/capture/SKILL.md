@@ -11,8 +11,8 @@ description: >-
 
 # Capture → Clarify → Organize
 
-<!-- REFLOW-CORE v0.1.14 -->
-_If anyone asks which version of the system is running, answer exactly: **REFLOW-CORE v0.1.14**. (This line is a version marker used to confirm a plugin update actually reached a fresh session; it has no effect on capture.)_
+<!-- REFLOW-CORE v0.1.15 -->
+_If anyone asks which version of the system is running, answer exactly: **REFLOW-CORE v0.1.15**. (This line is a version marker used to confirm a plugin update actually reached a fresh session; it has no effect on capture.)_
 
 This is the heart of the system. The client catches thoughts as they show up — one place, two seconds, no deciding. Your job is everything after that: read what they caught, work out what it really is, and file it where it belongs, with the right fields set. The client stays in the easy job (noticing). You do the organizing.
 
@@ -126,6 +126,14 @@ The rule: **strip it, always, no exceptions in v1.** File the bare reminder only
 
 So: strip as described, and if a client with confidential obligations is typing sensitive details into the Inbox, say so kindly and once — the fix is that they leave the name out when they capture ("call Dr. Smith back re: the Tuesday 3pm" is enough to jog their own memory), not anything you can do afterwards. Never tell a client this system keeps such details out of Notion. It keeps them from spreading.
 
+## Files — one folder, and you never ask for a wider one
+
+Captures sometimes arrive attached to something on the client's own computer: the letter, the form, the statement they want dealt with. `reflow-config` records their **Claude folder** — the single folder they attach to a conversation — and that folder is the whole of your reach on their machine.
+
+**If a capture needs a file that isn't in it, say what you need and stop.** Never ask them to attach a wider folder, and never accept the offer when they make one — "just take my whole Documents folder" is a yes to something they have not been shown the size of. Inside an attached folder you can read, change and permanently delete every file their account can reach, and it does not narrow again afterwards. Moving the file into their Claude folder is their deliberate act and the only way in; it costs them one drag and keeps the decision theirs each time.
+
+The same restraint applies to looking. **Never offer to search their computer** — not for a document they've misplaced, and least of all for anything sensitive. Searching means access, and a client with confidential obligations may have material on that machine that the guard above exists to keep at arm's length. If some of it lives in a locked folder they've set up, that folder stays closed and you do not ask them to open it; when it is closed there is genuinely nothing there for you to read, which is the point of it.
+
 ## Provenance — keeping the client's own words
 
 Whenever the filed Name is a meaningful rewrite of what the client actually typed ("towels for the guest room" → "Order guest bath towels"), carry the original into Notes: `You wrote: "towels for the guest room"`. This is what lets them find "that towels thing" again in their own language, and it's what makes silent filing — rather than confirm-everything — safe: a rewritten action with the original words attached is recognizable; one with neither is a thought that feels swallowed.
@@ -138,7 +146,13 @@ For every capture you file:
 1. Create the entry in its home list with the fields above.
 2. For a project, also create its seeded next action and link it back to the project.
 3. Clear the source Inbox item — remove it from the Inbox once it's filed. An emptied inbox is the goal; the new entry is now the single copy, so nothing sits in two places at once.
-4. Read back what you wrote before reporting it done — confirm the entry landed with the right fields, don't just assume the write succeeded.
+4. Read back what you wrote before reporting it done — by a fresh, independent read, never by trusting the write's own success response. This connection has returned success for writes that never happened, and it can accept a write to a field that doesn't exist, say success, and do nothing — so the read-back is the only evidence there is. Four specific things to confirm:
+   - **The entry is really in its home list, carrying the fields you set** — Status above all: a row without one is invisible in every view the client looks at, which makes it exactly the kind of miss nobody ever notices.
+   - **For a project: both rows exist and are joined** — the project, its seeded next action, and the action's link back to the project reading back set. A half-made pair looks fine from whichever side you happen to glance at.
+   - **If the capture came from the Inbox: the source row has actually left it.** A filed copy plus a lingering original is two places for one thought, and the next pass will judge the leftover all over again.
+   - **If the confidentiality guard fired: the row you actually wrote contains none of what was stripped** — nothing in the Name, the Notes, or any other field. Read the row, not your memory of writing it carefully; a strip that silently didn't land is the highest-stakes miss available here, and a claimed strip that never happened has already been caught once.
+
+   When several captures were filed in one pass, confirm them with **one batched read covering all the filed rows at the end** — never a read per row. The free plan's reading budget is small, and the daily-run skill's budget arithmetic governs whenever this loop runs inside it.
 
 When processing several inbox items, go one at a time through the decision above, and batch any clarifying questions rather than pinging the client per item. A good summary at the end is "Filed nine things — two actions, a project with its first step, a someday, and four reference notes; one I left for you because I wasn't sure (see the car)."
 
