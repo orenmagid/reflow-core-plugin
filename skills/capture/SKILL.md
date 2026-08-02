@@ -11,8 +11,8 @@ description: >-
 
 # Capture → Clarify → Organize
 
-<!-- REFLOW-CORE v0.1.15 -->
-_If anyone asks which version of the system is running, answer exactly: **REFLOW-CORE v0.1.15**. (This line is a version marker used to confirm a plugin update actually reached a fresh session; it has no effect on capture.)_
+<!-- REFLOW-CORE v0.2.0 -->
+_If anyone asks which version of the system is running, answer exactly: **REFLOW-CORE v0.2.0**. (This line is a version marker used to confirm a plugin update actually reached a fresh session; it has no effect on capture.)_
 
 This is the heart of the system. The client catches thoughts as they show up — one place, two seconds, no deciding. Your job is everything after that: read what they caught, work out what it really is, and file it where it belongs, with the right fields set. The client stays in the easy job (noticing). You do the organizing.
 
@@ -20,9 +20,11 @@ Do it calmly and quietly. The client should feel that things they set down are s
 
 ## Your client's configuration — read this first
 
-Everything specific to *this* client lives in a separate skill of their own called **`reflow-config`**: which Notion databases the five lists map to, their contexts, their category sets, their internal area values, and where their confidential records belong. Read it before you file anything.
+Everything specific to *this* client lives in a separate skill of their own called **`reflow-config`**: which Notion databases the five lists map to, their contexts, their areas, their lists, and where their confidential records belong. Read it before you file anything.
 
 If `reflow-config` isn't there, don't stall and don't ask — fall back to the defaults documented below and file normally. A missing config means slightly generic filing, never a stuck capture.
+
+**And one more skill is worth knowing about: `gtd-method`.** It is the short reference on how this system thinks — the definitions that decide where things go, and the places this system deliberately does things differently from standard GTD. **Read it whenever a capture doesn't fit the tree below**, and before you offer her any GTD practice this system doesn't use. You know the method already; what you can't know without reading it is where this one diverges on purpose.
 
 Wherever a configured value differs from a default named in this skill, **the configured value wins**. The defaults and the worked examples exist to show you how to *decide*, not to pin down one client's vocabulary.
 
@@ -30,11 +32,15 @@ Wherever a configured value differs from a default named in this skill, **the co
 
 Five lists (the binding from these names to the client's actual Notion databases lives in `reflow-config`):
 
-- **Next Actions** — one concrete, physical next step. The workhorse list.
+- **Actions** — one concrete, physical next step. The workhorse list.
 - **Projects** — any outcome that takes more than one action. Each active project also gets a next action.
-- **Someday / Maybe** — might do it, but not now. Off the active lists, not forgotten.
+- **Lists** — things she collects rather than commits to: groceries, things to buy, books to read, trips she'd like to take. **She can have as many as she wants and can ask for a new one at any time.**
 - **Reference** — information to keep and look up. Nothing to *do*.
 - **Inbox** — where raw captures land before you process them. You empty it; you don't leave things here.
+
+**"Someday" is not one of these — it is a state.** Something she might do one day is an **action or a project marked `Someday`**, staying exactly where it is. There is no separate someday list to move things into and out of, and that is deliberate: promoting a someday item to active is the most common change in the whole system, and as a state it is one edit that loses nothing.
+
+**The status vocabulary, shared by Actions and Projects:** `Active` · `Waiting` (actions only — you hand over a step, not an outcome) · `On hold` · `Someday` · `Done`.
 
 **One holding pen, however it arrives.** A capture doesn't have to come through the Notion Inbox to count — if the client tells you something to catch in conversation, run it through this exact same decision tree right then, immediately. The Inbox is the *only* unprocessed pile in the system; a conversational capture never gets parked in a second one waiting for later.
 
@@ -44,25 +50,58 @@ Run these questions top to bottom. The first one that resolves decides where the
 
 **1. Is there anything to do here at all?**
    Ask: does this call for an action from the client, now or eventually?
-   - **No, but worth keeping** (a fact, a number, a name, a reference) → **Reference**. Give it a clear Name and put the actual information in Detail; pick a Category.
+   - **No, but worth keeping** (a fact, a number, a name, a reference) → **Reference**. Give it a clear Name, put the actual information in Detail, and set the `Area` of life it belongs to.
    - **No, and not worth keeping** (a passing musing with no content) → don't create anything; clear it from the Inbox. Don't manufacture a task to justify the capture.
    - **Yes, there's something to do** → continue.
 
+**1b. Is this a commitment of its own, or an item in a batch?**
+
+   Three questions in order. **The first one that fires decides, and the first two both mean "action."**
+
+   **First: is this a commitment in its own right — something she would want noticed if it went undone?** *"Make a dentist appointment"* is. If it hasn't happened in three weeks, that matters and she should hear about it. **That makes it an action, and no list may swallow it.** A row on a list is never chased, never counted as stalled, never surfaced as waiting — so putting a real commitment there is a promise to forget it.
+
+   ⚠ **The tell that you are about to get this wrong: you find yourself inventing a list of things that each need their own phone call, their own decision, their own moment.** *"Appointments to make," "calls to return," "emails to send."* **Those are not lists — they are contexts, and the system already has them.** `@Calls` is where every call gets batched, and it batches them without pretending they are interchangeable. **If a proposed list would duplicate a context, it is the wrong shape.** Making a list of real commitments is the single dumbest thing available here, and it looks tidy right up until nothing on it ever gets done.
+
+   **Second: does it need to happen by a particular time?** A day, a deadline, a "before Thursday," a "today." If so it is an **action**, no matter how shopping-shaped it looks. *"I need sugar today, I'm baking the cake this afternoon"* is **"Buy sugar" with today's date on it** — not a row on the grocery list. A list means *whenever the occasion next comes round*, and a thing that cannot wait for that has outgrown it. Timing beats shape, every time.
+
+   **Third, only if neither fired: is a standing occasion coming to collect this, along with others like it?**
+
+   The thing that makes a list row a list row is that **it is not a promise on its own.** Nobody tracks whether the oat milk got bought; if it didn't, it gets bought next time. Twenty of them are collectively *one trip*, which is why they must not sit among things that are each individually a commitment — the errands view would drown, and every real errand in it would start looking as skippable as the oat milk.
+
+   **A list item is a noun. The list supplies the verb and the occasion.** "Groceries" means *buy these, next time you're at a shop*; "Bike shop" means *buy these, next time you're there*. So the row is just `olive oil`, just `lights` — no context, no status, no date, because the list has already answered all three for every item on it. An action is the opposite: a verb phrase that names its own doing, because nothing else will.
+
+   - **Yes, an occasion is coming** — a shop she goes to, a routine she has, a running collection she keeps → **Lists**. Put the noun on the list; strip the verb. "We're low on olive oil" becomes `olive oil` on `Groceries`.
+   - **No, nothing is coming to collect it** ("look into a new bike," "find a plumber," "book the car in") → that's an action; continue.
+   - **Almost — the occasion would exist if the list did.** Two or three captures of the same shape and there is a list forming. **Make it**: adding one is two operations, needs nobody's permission, and costs nothing if it goes unused. *"Started you a Bike shop list"* — say it in passing, don't ask.
+
+   ⚠ **The same object routes differently on different days, and that is correct, not a flaw in the rule.** Sugar is a grocery row on Tuesday and an action on the morning of the cake. Nothing about the sugar changed; the timing did. **Never reason from the object — reason from whether anything is coming to collect it in time.**
+
+   **And if it was already on a list when it turns urgent:** make the action, and tick the list row off in the same breath. It is being handled now; leaving it on the list means she buys sugar twice.
+
+   ★ **When you file something for today, put it on the front page yourself — do not wait for the next run.** The home page's "right now" list was decided by a run that happened hours ago and knows nothing about this. Tick the action's `Surfaced` flag as you create it, and update the front page's line to match. **This is a targeted write on one row you already have in your hand** — it costs nothing like a full run, and it is the difference between *"I need sugar today"* landing somewhere she'll see it and landing somewhere she'll see it tomorrow.
+
+   The same applies to anything dated today or already overdue, however it arrives: **it is not "filed" until it is where she looks.**
+
+   ⚠ **The capture's phrasing is not the test either.** "Get bike lights" is worded as an action and still belongs on a list. What matters is whether the thing is one of a batch handled together — a list is how a batch is held. Twenty single-item errands loose among real commitments is the failure this prevents: each looking like a promise, when together they are one visit to one shop.
+
+   ★ **The list-versus-action half is D17's own reasoning and should not have been re-derived:** *"'buy oat milk' is not a commitment with a next-action shape; it's an entry in the standing routine 'we buy groceries.'"* Flow found the same thing from behaviour — store-specific tags emerged as de facto shopping lists, and the system learned to treat the tag as sufficient context. **Don't ask what "Applesauce" means.**
+
 **2. Is it committed now, or a "maybe, later"?**
    Ask: is this something the client actually intends to move on, or a wish/idea with no commitment behind it?
-   - **Not committed — someday/maybe** ("learn Portuguese," "someday repaint the hall") → **Someday / Maybe**. Don't give it a next action or a due date; that's what makes it someday rather than active.
+   - **Not committed — someday/maybe** ("learn Portuguese," "someday repaint the hall") → file it exactly where it would go if it *were* committed — an action or a project — and set its `Status` to `Someday`. **It does not go to a different list, because there isn't one.**
+     **★ `Someday` and `Due` never sit on the same row — this is a rule, not a preference.** A due date says *this has to happen by then*, which is a commitment; someday says *no commitment was made*. If the capture carries a real deadline, it is not someday: file it `Active`, or `Defer` it until it becomes relevant. And if you are setting aside something that already carries a date, **take the date off and put it in the note** — *"was due in March"* — because the fact stays true even when the commitment doesn't, and it is exactly what will make her want this back later. The same goes for a next action: giving one to a someday item is what would make it active.
    - **Committed** → continue.
 
 **3. Does finishing it take one step, or more than one?**
    Ask: if the client did the single most obvious next thing, would the whole matter be *done*?
-   - **More than one step that spans sittings or contexts — it's a project** ("plan mom's birthday," "get the guest room ready") → create a **Projects** entry (the outcome, stated as done), *and* seed its very next action as a **Next Actions** entry linked back to the project. A project without a next action is a stalled project, so never leave one without its first step.
+   - **More than one step that spans sittings or contexts — it's a project** ("plan mom's birthday," "get the guest room ready") → create a **Projects** entry (the outcome, stated as done), *and* seed its very next action as an **Actions** entry linked back to the project. A project without a next action is a stalled project, so never leave one without its first step.
    - **Several steps, but all execution detail for one sitting** ("pack for the trip") → still **one action**. Put the steps as a checklist in the action's own page body, not a Projects row. The test is cognitive, not arithmetic: a project is a multi-step *outcome* whose steps need tracking across time or contexts; a checklist is just the detail of doing one thing in one sitting.
-   - **One step (or a checklist for one sitting)** → create a **Next Actions** entry.
+   - **One step (or a checklist for one sitting)** → create an **Actions** entry.
 
 **4. For any action (standalone or a project's next step), fill in the fields.**
    - **Name** — the very next *physical* step, phrased as a verb. Not "plumber" but "Email the plumber about the leak." Not "mom's birthday" but "Text siblings to pick a date."
    - **Context** — where or how it gets done: `@Calls`, `@Errands`, `@Computer`, `@Home`, `@Anywhere`. Pick the one that matches how the client would actually get to it. (Emailing and online ordering are `@Computer`; a phone call is `@Calls`.)
-   - **Status** — `Next` normally. `Waiting` the moment the client has handed it off and is waiting on someone else — this is a hard rule, not a suggestion: whenever anything flips to `Waiting`, record who and since-when in Notes in the same breath, every time.
+   - **Status** — `Active` normally. `Waiting` the moment the client has handed it off and is waiting on someone else — this is a hard rule, not a suggestion: whenever anything flips to `Waiting`, record who and since-when in Notes in the same breath, every time.
    - **Due** — set a real date *only* if there's a genuine deadline. Most actions have none — leave it blank. Don't invent urgency.
    - **Planned** — when the capture carries do-on-a-day intent ("Saturday I'll clean out the garage," "I'll call them Monday"), put that day here — not in Due (it isn't a deadline; nothing breaks if the day slips) and not in Defer (they said the day out loud because they want to see it coming, not have it hidden). The item stays visible the whole time; the date just records the intent. Planned and Defer can coexist (hidden until the Defer date arrives, planned for a later day), but a capture usually wants one or the other. If the day passes undone, the date is never overwritten and the item is never called overdue — it shows as *carried*, and the weekly review re-decides it.
    - **Occurrence** — only when you're also setting `Repeat`. Give the action a short identifier unique to this repeating thing (any stable string will do — a few words plus a number). Every future occurrence of the same chore carries the same one, which is how the system tells "the next watering" apart from a different task that happens to share a name. Without it, renaming a repeating task makes it come back twice.
@@ -85,7 +124,7 @@ When a capture names a deadline ("by April 15," "before Friday," "due end of mon
 
 ## Reference and non-actionable captures
 
-If it's information rather than a task, it's **Reference**: a Name that says what it is, the actual info in Detail, a Category. Don't turn a fact into a fake to-do. Exception worth flagging: if a capture looks like a high-value secret (a banking login, a recovery code), don't file it silently — tell the client it's better kept in a password manager than in Notion. A low-stakes item like a home wifi password is fine to keep in Reference.
+If it's information rather than a task, it's **Reference**: a Name that says what it is, the actual info in Detail, and the `Area` of life it belongs to. Don't turn a fact into a fake to-do. Exception worth flagging: if a capture looks like a high-value secret (a banking login, a recovery code), don't file it silently — tell the client it's better kept in a password manager than in Notion. A low-stakes item like a home wifi password is fine to keep in Reference.
 
 ## The one clarifying question
 
@@ -108,7 +147,7 @@ When you ask:
 Degrade gracefully — never create garbage:
 - **Empty or whitespace-only** — nothing to file. If you're mid-conversation, say there's nothing there yet; otherwise just skip it. Don't create an empty row.
 - **Pure emoji or an indecipherable fragment** ("🎉", "asdf") — you can't honestly classify it. Ask one light question if the client is around ("Saw '🎉' in your inbox — what's that one about?"); if not, leave it in the Inbox rather than inventing meaning. Never fabricate an action from noise.
-- **Already done** ("booked the dentist ✓", "called the plumber") — this isn't a next action; don't create an open task. If the client keeps a done-log, you may record it in Next Actions with Status `Done`; otherwise acknowledge it and clear it from the Inbox. Default: don't add an open to-do for something already finished.
+- **Already done** ("booked the dentist ✓", "called the plumber") — this isn't a next action; don't create an open task. If the client keeps a done-log, you may record it in Actions with Status `Done`; otherwise acknowledge it and clear it from the Inbox. Default: don't add an open to-do for something already finished.
 
 **When you're the daily run rather than a conversation, the judgement gets written down.** Leaving noise sitting in the Inbox is right — but leaving no trace of having judged it is not, because the next run has no way to know you already looked, and the client ends up asked about the same "🎉" every day until they stop reading. The daily-run skill owns that mechanic and describes exactly how the verdict is recorded. Nothing above changes: you still never fabricate an action from noise, and an empty row is still left completely untouched.
 
@@ -162,34 +201,54 @@ When processing several inbox items, go one at a time through the decision above
 
 These are the boundary cases the system must get right. Each shows the capture, the reasoning, and the exact write — the expected outcome the classification test checks against.
 
-**Read these for the reasoning, not the vocabulary.** The specific values below — `@Computer`, `Learn`, `Household`, `Practice (admin)` — are the documented defaults. A given client's contexts, categories, and areas come from `reflow-config` and may differ entirely; where they do, the configured values win and these examples still hold. What each example demonstrates is *how to decide*, which does not change from client to client.
+**Read these for the reasoning, not the vocabulary.** The specific values below — `@Computer`, `Household`, `Practice (admin)`, `Groceries` — are the documented defaults. A given client's contexts, areas and lists come from `reflow-config` and may differ entirely; where they do, the configured values win and these examples still hold. What each example demonstrates is *how to decide*, which does not change from client to client.
 
 ### 1. Bare next action — "email the plumber"
 - **Reasoning:** Actionable. Committed. One step — emailing the plumber finishes the matter. Not a project.
-- **Write → Next Actions:** Name "Email the plumber" · Context `@Computer` · Status `Next` · Area `Household` · no Project · no Due.
+- **Write → Actions:** Name "Email the plumber" · Context `@Computer` · Status `Active` · Area `Household` · no Project · no Due.
 - **Clear the Inbox item.**
 
 ### 2. Multi-step project — "plan mom's birthday"
 - **Reasoning:** Actionable and committed. Takes more than one step (pick a date, invite people, plan a gift…). It's a project — so create the project *and* its first next action.
 - **Write → Projects:** Name "Mom's birthday sorted" · Status `Active` · Outcome "A plan everyone's happy with, in motion." · Area `Personal`.
-- **Write → Next Actions:** Name "Text siblings to pick a date" · Context `@Calls` · Status `Next` · Project → *Mom's birthday sorted* · Area `Personal`.
+- **Write → Actions:** Name "Text siblings to pick a date" · Context `@Calls` · Status `Active` · Project → *Mom's birthday sorted* · Area `Personal`.
 - **Clear the Inbox item.**
 
 ### 3. Someday / maybe — "learn Portuguese"
 - **Reasoning:** Actionable in principle, but a wish with no commitment behind it. Filing it as an active project would put false pressure on the active lists. It's a someday.
-- **Write → Someday / Maybe:** Name "Learn Portuguese" · Category `Learn`. No next action, no due date.
+- **Write → Actions:** Name "Learn Portuguese" · Status `Someday` · Area `Personal` · no Context, no next action, no due date. It stays on the Actions list, marked someday — it does not move anywhere.
 - **Clear the Inbox item.**
+
+### 3b. A list already supplies the verb — "we're low on olive oil"
+- **Reasoning:** The occasion already exists — she goes to a shop, repeatedly, and buys the things on the list when she's there. The capture is a noun that belongs to that routine. Filing it as an action would put a one-word errand among her real commitments, and twenty of them would bury the list she scans to decide what to do today.
+- **Write → Lists:** Name "olive oil" · List `Groceries`. **Strip the verb** — not "buy olive oil"; the list already says buy. Nothing else: no context, no status, no date, because `Groceries` has answered all three for every row on it.
+- **Clear the Inbox item.**
+
+### 3c. The occasion exists but the list doesn't yet — "bike lights, and I still need a pump and a decent lock"
+- **Reasoning:** Three things, one trip, one shop. That is a list forming in front of you. It would be wrong to file three separate errands as three commitments, and wrong to make her ask for the list first.
+- **Write → Lists:** create the list `Bike shop`, then three rows — `lights`, `pump`, `lock`. Say it in passing: *"started you a Bike shop list, those three are on it."* Don't ask first; a question adds a step to something with no downside.
+- **Clear the Inbox item.**
+
+### 3c-ii. The list that must NOT be made — "I need to make a dentist appointment"
+- **Reasoning:** ⚠ It is tempting to see this alongside the optician and the vet and reach for an "Appointments to make" list. **Don't.** Each of these is a commitment on its own: a specific call, at a specific place's opening hours, that matters if it doesn't happen. A list row is never chased and never counted as stalled, so a list here is a promise to forget them. **And the batching she actually wants already exists** — `@Calls` gathers every call without pretending they're interchangeable.
+- **Write → Actions:** Name "Call the dentist to book a check-up" · Context `@Calls` · Status `Active` · Area `Health`.
+- **The test that catches this:** would she want to know if it *hadn't* happened? Yes → action. Nobody wants a notification about un-bought oat milk.
+
+### 3d. The near-miss — "maybe get a new bike"
+- **Reasoning:** ⚠ **The word "get" is not what decides this**, and reading it that way is the mistake to avoid — *"get bike lights"* is also a "get" and belongs on a list. The question is whether an occasion is coming to collect it. **For lights, yes**: the next bike-shop trip handles them along with the pump and the lock. **For a whole bike, no** — it needs research and a decision that no shopping trip supplies, so nothing will pick it up unless it carries its own verb. That makes it an action, and since there's no commitment behind it yet, a someday one.
+- **Write → Actions:** Name "Look into a new bike" · Status `Someday` · Area `Personal`.
+- **The pair to hold in mind:** `lights` is a noun on a list; *"look into a new bike"* is a verb phrase standing on its own. Same shop, same afternoon, different kind of thing.
 
 ### 4. Non-actionable reference — "wifi password is Sunflower22"
 - **Reasoning:** Nothing to do — it's a fact to keep and look up later. Low-stakes secret, fine for Reference.
-- **Write → Reference:** Name "Home wifi password" · Category `Household` · Detail "Sunflower22".
+- **Write → Reference:** Name "Home wifi password" · Area `Household` · Detail "Sunflower22".
 - **Clear the Inbox item.**
 - (If it had been a banking login or recovery code, flag it as password-manager material instead of filing silently.)
 
 ### 5. Deadline'd item — "file taxes by April 15"
 - **Reasoning:** Actionable and committed, with a real deadline. Filing taxes realistically takes more than one step (gather documents, fill forms, submit), so it's a project — and the deadline attaches to the outcome. Parse "April 15" to a concrete date: the next future April 15.
 - **Write → Projects:** Name "Taxes filed" · Status `Active` · Due `2027-04-15` · Outcome "Return submitted before the deadline." · Area `Personal`.
-- **Write → Next Actions:** Name "Gather tax documents (W-2s, 1099s)" · Context `@Home` · Status `Next` · Project → *Taxes filed* · Area `Personal`.
+- **Write → Actions:** Name "Gather tax documents (W-2s, 1099s)" · Context `@Home` · Status `Active` · Project → *Taxes filed* · Area `Personal`.
 - **Clear the Inbox item.**
 - (If the client clearly means it as one simple task rather than a project, filing it as a single Next Action with Due `2027-04-15` is also correct — the load-bearing part is that the deadline lands in Due and the client isn't left holding a plan in their head.)
 
@@ -201,7 +260,7 @@ These are the boundary cases the system must get right. Each shows the capture, 
 
 ### 7. Borderline but resolvable — "towels for the guest room" (teaches restraint + provenance)
 - **Reasoning:** Could be read as a project ("get the guest room ready") or an action, but a sensible next action is obvious. Don't ask — acting here means *deciding*, not *guessing*.
-- **Write → Next Actions:** Name "Order guest bath towels" · Context `@Computer` · Status `Next` · Area `Household` · Notes `You wrote: "towels for the guest room"` (the filed Name is a real rewrite of the capture, so the original words are preserved).
+- **Write → Actions:** Name "Order guest bath towels" · Context `@Computer` · Status `Active` · Area `Household` · Notes `You wrote: "towels for the guest room"` (the filed Name is a real rewrite of the capture, so the original words are preserved).
 - **Clear the Inbox item.** (If the client later reveals it's part of a bigger guest-room refresh, promote it to a project then.)
 
 ### 8. Empty / whitespace capture — "" or "   " (pinned anchor)
@@ -214,39 +273,39 @@ These are the boundary cases the system must get right. Each shows the capture, 
 
 ### 10. Already done — "booked the dentist ✓"
 - **Reasoning:** Past-tense, already finished. Not a next action.
-- **Action:** Don't create an open task. If the client keeps a done-log, optionally record it in Next Actions with Status `Done` (and an Area, same as any Next Actions row); otherwise acknowledge and clear it from the Inbox.
+- **Action:** Don't create an open task. If the client keeps a done-log, optionally record it in Actions with Status `Done` (and an Area, same as any Actions row); otherwise acknowledge and clear it from the Inbox.
 
 ### 11. Recurring — "water the plants every Saturday"
 - **Reasoning:** Actionable, committed, and names its own cadence. This is exactly what `Repeat` exists for — a plain-English cadence field, not a fresh capture every week.
-- **Write → Next Actions:** Name "Water the plants" · Context `@Home` · Status `Next` · Repeat "every Saturday" · Area `Household` · no Due.
+- **Write → Actions:** Name "Water the plants" · Context `@Home` · Status `Active` · Repeat "every Saturday" · Area `Household` · no Due.
 - **Clear the Inbox item.** One entry, not a stack of future copies — the automated respawn-on-completion is a later mechanism; today the field is simply written correctly.
 
 ### 12. Waiting — "waiting to hear back from the contractor about the quote"
 - **Reasoning:** Already delegated — the client isn't the one who acts next, the contractor is. This is the Waiting status, not a fresh action to do.
-- **Write → Next Actions:** Name "Hear back from the contractor about the quote" · Status `Waiting` · Notes "Waiting on: the contractor, since [today's date]" · Area `Household`.
+- **Write → Actions:** Name "Hear back from the contractor about the quote" · Status `Waiting` · Notes "Waiting on: the contractor, since [today's date]" · Area `Household`.
 - **Clear the Inbox item.** The who-and-since-when in Notes is a hard rule, not optional — it's what makes the weekly review's Waiting pass actually useful.
 
 ### 13. Client-identifying content — "call Dr. Smith back about Jane R's medication" (the PHI guard, HIGH STAKES)
 - **Reasoning:** A name plus a sensitive personal detail, together — exactly the shape the confidentiality guard exists for. Filing this verbatim would put someone else's identity and health information in an uncovered tool. The guard overrides everything else, including provenance.
-- **Write → Next Actions:** Name "Call Dr. Smith back" · Context `@Calls` · Status `Next` · Area `Practice (admin)`. Nothing else — no "Jane," no "medication," no third-party name or sensitive detail anywhere in Name, Notes, or any other field.
+- **Write → Actions:** Name "Call Dr. Smith back" · Context `@Calls` · Status `Active` · Area `Practice (admin)`. Nothing else — no "Jane," no "medication," no third-party name or sensitive detail anywhere in Name, Notes, or any other field.
 - **No "You wrote: …" note.** The guard overrides provenance completely — the stripped specifics don't get preserved anywhere, not even in Notes.
 - **Tell the client** (in conversation, not in the filed row) what was left out and that it belongs in their confidential record system — named from `reflow-config` if it's configured there, described generically if it isn't.
 - **Clear the Inbox item.**
 
 ### 14. Committed but not yet — "school forms come out late August — handle them then" (the Defer/Someday boundary)
 - **Reasoning:** Genuinely committed — this isn't a maybe — but genuinely not actionable for weeks. Someday would misrepresent it (that implies the commitment was released); sitting on the active context view all summer would be noise. Defer is exactly this case.
-- **Write → Next Actions:** Name "Deal with the school forms" · Context `@Home` · Status `Next` · Defer `2026-08-20` (pinned canonical value; any date from 2026-08-15 through 2026-08-31 also passes — re-anchor to the next late August if this verification runs after 2026-08-15) · Area `Kids & school`.
-- **Clear the Inbox item.** Until the Defer date, the item is absent from "Next actions — by context" and present only in "Later (scheduled to return)" — never Someday.
+- **Write → Actions:** Name "Deal with the school forms" · Context `@Home` · Status `Active` · Defer `2026-08-20` (pinned canonical value; any date from 2026-08-15 through 2026-08-31 also passes — re-anchor to the next late August if this verification runs after 2026-08-15) · Area `Kids & school`.
+- **Clear the Inbox item.** Until the Defer date, the item is absent from "Actions — by context" and present only in "Later (scheduled to return)" — never Someday.
 
 ### 15. Multi-step but one sitting — "pack for the trip" (the checklist boundary)
 - **Reasoning:** Several steps, but they're all execution detail for one sitting, not a project — you don't come back to "pack for the trip" across separate sittings or contexts the way you would "get the guest room ready." The sitting-vs-span rule says this stays a single action.
-- **Write → Next Actions:** Name "Pack for the trip" · Context `@Home` · Status `Next` · Area `Personal` · a to-do checklist in the page body (clothes, toiletries, chargers, etc., inferred from context or asked about only if genuinely unclear).
+- **Write → Actions:** Name "Pack for the trip" · Context `@Home` · Status `Active` · Area `Personal` · a to-do checklist in the page body (clothes, toiletries, chargers, etc., inferred from context or asked about only if genuinely unclear).
 - **No Projects row.** Creating one here would flood the Projects list with something that isn't an outcome spanning time — it's one sitting's worth of steps.
 - **Clear the Inbox item.**
 
 ### 16. Do-on-a-day intent — "Saturday I'll clean out the garage" (the Planned/Due/Defer boundary)
 - **Reasoning:** Actionable, committed, one step's worth of work — and it names the day the client *intends* to do it. That's not a deadline (nothing happens if Saturday slips), so Due would invent urgency. And they said the day out loud because they want to see it coming, so hiding it until Saturday with Defer would be wrong too. This is exactly what `Planned` records: visible the whole time, intent rather than obligation.
-- **Write → Next Actions:** Name "Clean out the garage" · Context `@Home` · Status `Next` · Planned `2026-08-01` (pinned canonical value — the first Saturday after the capture; re-anchor to the next Saturday if this verification runs after 2026-08-01) · Area `Household` · **Due empty · Defer empty.**
+- **Write → Actions:** Name "Clean out the garage" · Context `@Home` · Status `Active` · Planned `2026-08-01` (pinned canonical value — the first Saturday after the capture; re-anchor to the next Saturday if this verification runs after 2026-08-01) · Area `Household` · **Due empty · Defer empty.**
 - **Clear the Inbox item.** If Saturday passes and it didn't happen, the date is never overwritten and the item is never called overdue — it shows as *carried*, and the weekly review re-decides it.
 
 ---

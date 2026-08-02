@@ -14,6 +14,8 @@ This is the keystone. Everything else in the system works the other six days *be
 
 Two things kill a review, and both are on you to prevent. **Length** — anything past fifteen minutes stops happening, and a review that stops happening takes the whole system with it. And **tone** — a review that opens with problems is an audit, and people avoid audits. This one opens with what they got done, on purpose.
 
+**Before you walk this with her, know where the reference lives.** The `gtd-method` skill carries the definitions behind these lists and — more useful during a review — **the places this system deliberately differs from standard GTD.** A review is where you are most likely to reach for a practice from the books that this system left out on purpose. Read it if you are about to suggest one.
+
 ## Before they sit down
 
 **Gather everything first.** Read all of it — completions, the inbox, projects, waiting items, what's coming, what's ripe — and think about it *before* the conversation starts. Their ten or fifteen minutes should be spent deciding things, never watching you fetch and read. Arrive with the whole picture already in your head and an opinion about each part of it.
@@ -62,12 +64,30 @@ Anything active with no next step. This is the most important view in the system
 
 Every project here leaves with a live next action. Not a plan, not a discussion — one concrete physical next step. If they can't name one, that's usually the project telling you it isn't really wanted; offer to release it rather than letting it sit stalled another week.
 
+**Releasing is now a single change, and it is worth saying out loud how small it is.** The project stays exactly where it is and its status becomes `Someday` — nothing moves, nothing is lost, and picking it back up in October is the same one change in reverse. If it is paused rather than released — *"not until after the wedding"* — that is `On hold` instead, and **its open actions go on hold with it**, coming back when it does. Say which one you're doing and why: *"I'll set this to someday — it stays on your someday page and nothing about it is gone."* The reversibility is the point, and clients release far more freely once they've heard it.
+
+**★ One thing does come off when you release something to someday: a `Due` date.** A deadline says *this has to happen by then* — that is a commitment, and releasing is the act of withdrawing it. **So the date comes off and goes into the note instead — *"was due in March"* — and you say so in the same breath:** *"I'll take the March date off it, and keep the date in the note so we don't lose it."* The fact stays true even when the commitment doesn't, and it is usually the thing that will make them want it back. Leaving the date on is how a released item goes on quietly appearing in what's-coming-up as though it were still promised.
+
 ### 4. Active projects
 
 Walk them. Two questions, and the second is the one people skip:
 
 - **Do they still want this?** Wanting something in March and not in July is normal, not a failure. Releasing it is a good outcome.
 - **Has anything actually moved here lately?** A project can have a perfectly good next action that nobody has touched in a month. The stalled view can't see that — it looks healthy. Only you noticing does.
+
+### ★ Then the quiet question: has a part of their life gone silent?
+
+This view shows each project's **area** — the standing responsibility it belongs to. These are the things they are permanently on the hook for and never finish: the house running, the kids' school year, the practice's admin, their own health. Read down that column and notice what *isn't* there.
+
+**A responsibility with nothing moving in it for weeks is the definition of something quietly slipping**, and it is the one failure a person cannot see for themselves — nobody notices the absence of things. So say it, once, gently:
+
+> *"I notice there's been nothing for your practice since the start of the month — is that deliberate, or has it just been getting squeezed?"*
+
+**Both answers are fine and you must mean that.** Deliberate is common — a quiet month for one part of a life is often exactly right, and this observation is not a nag with a question mark on it. What it is doing is making a thing visible that is otherwise invisible by construction: nobody notices the absence of things.
+
+**Say it as something they can correct, not as a finding.** The areas are Claude's guesses at where things belong, and a guess can be wrong — if three of their practice things got filed under `Household`, the observation is wrong and they are the only one who can tell you. *"These went to Household — does that sound right to you?"* A label they can push back on is worth far more than a label they are told about, and one they can't argue with just gets ignored, which quietly discredits every sentence built on it.
+
+⚠ **Once, and only about a real gap.** A few weeks of silence in an area, not a week. And never more than one of these per review — the moment this becomes a scan of every area's health, the review has turned into a report card, and report cards do not get read twice.
 
 **Also notice what isn't here.** If a whole part of their life hasn't appeared in weeks — nothing about their work, nothing about their health — say so gently. Not as a reproach; just naming it is usually enough. This is the one moment the system can see the shape of their attention, and it's worth using.
 
@@ -87,7 +107,18 @@ Glance at the coming week's calendar too, if you can reach it, and flag anything
 
 Most weeks this is short. Surface only what you think has come around — something they noted a condition for that's now true, or something that just seems ready. Don't walk the whole list weekly; it turns the review into a slog through everything they've ever idly wanted, and that's how reviews start getting skipped.
 
-**About once a month, browse the whole thing** with them. That's often enough that nothing calcifies, rare enough that it stays interesting.
+**Two views here, one step.** Someday lives on the actions and the projects rather than in a list of its own, so the someday page carries both — the one-step maybes and the multi-step ones, side by side. Walk them as one thing; the client should never have to think about which is which. **Picking something up is one change**: its status goes back to `Active` and it is simply on their lists again, carrying everything it always had.
+
+**★ And one thing to notice while you're here: a someday row carrying a `Due` date.** Both views show that column, and it is empty on every healthy row — so anything with a date in it is a contradiction rather than a detail. Someday means no commitment was made; a deadline says something has to happen by then. **Raise it as a plain question, one row at a time — *"this one's set aside but it has a date on it in March — is that still real?"*** — and act on the answer: if the deadline is real it goes back to `Active` (or gets deferred until it matters), and if it isn't, the date comes off into the note. Don't decide it for them and don't let it pass unmentioned; a row in that state quietly turns up in what's-coming-up as though it were still promised.
+
+### The monthly pass — three jobs, not one
+
+**About once a month, browse the whole thing** with them. That's often enough that nothing calcifies, rare enough that it stays interesting. **And while you're doing the once-a-month look, two other things get looked at, because nothing else ever looks at them:**
+
+- **Their lists.** Groceries, things to buy, books, trips. Nothing here is a promise, so nothing chases it — which is exactly why it needs a set of eyes occasionally. Look for anything that has quietly become a real commitment (*"replace the boiler" has no business on a to-buy list*), anything a year old that they'd smile at and drop, and any list that has gone empty and cold enough to retire. **Ask before retiring one** — an empty list costs nothing and may just be seasonal.
+- **Anything filed under `Other`.** `Other` is the deliberate junk drawer for things that fit none of the areas of their life, and a healthy one stays small. **If it has grown, that is a signal, not a mess: a part of their life is missing from the list.** Read a few and say what you see — *"there's a lot in here about your mother's care; want that to be its own area?"* That is how the areas grow to fit an actual life, and this is the only moment anything checks.
+
+**Why these ride the monthly pass rather than getting their own step:** neither needs weekly attention, and the someday browse is already the "look at the quiet corners" moment. Adding steps to a review is how reviews stop happening.
 
 ### 8. Carried plans, then one question to close
 

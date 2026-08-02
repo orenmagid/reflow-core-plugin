@@ -27,9 +27,11 @@ The build creates this block with placeholder text. The daily run rewrites it; i
 
 ## Naming — pinned
 
-Database **titles carry no emoji**: `Inbox`, `Next Actions`, `Projects`, `Someday / Maybe`, `Reference`, `System pulse`. The emoji shown throughout this document are set as each database's **icon**, which is a separate thing in Notion (System pulse gets none — it is plumbing, not a shelf). Note the spaces around the slash in `Someday / Maybe` — they are part of the name.
+Database **titles carry no emoji**: `Inbox`, `Actions`, `Projects`, `Lists`, `Reference`, `System pulse`. The emoji shown throughout this document are set as each database's **icon**, which is a separate thing in Notion (System pulse gets none — it is plumbing, not one of the five). The two client-facing pages are `Someday / Maybe` (note the spaces around the slash — they are part of the name) and `Weekly Review`, both with emoji as icons.
 
 Matching an existing database is **exact, case-sensitive, on the plain title**, scoped to children of the target page and never workspace-wide.
+
+**⚠ Adopting a build that predates 2026-07-31.** An older build has databases titled `Next Actions` and `Someday / Maybe`. **Rename `Next Actions` to `Actions`; never create a second one.** The rename is safe and verified: `notion-update-data-source`'s `title` parameter propagates to the parent page's `child_database.title`, which is the field this by-name lookup matches (executed 2026-07-31). The old `Someday / Maybe` *database* is a different matter — its rows are redistributed and it is retired, which is a migration, not a rename. **Where each row goes is pinned in the prerequisites list under Build order** (per D23's disposition table, by the row's `Category`); before 2026-08-01 this sentence pointed at a note that never covered it.
 
 **[verify]** The Phase 1a reference build recorded its databases as "📥 Inbox" and so on. Whether that was the title or the icon is unrecorded. Check it during the next sitting — if the emoji is in the title there, either that build or this spec needs correcting, and the two must not be allowed to drift.
 
@@ -41,35 +43,38 @@ Matching an existing database is **exact, case-sensitive, on the plain title**, 
 | Inbox | Captured | Created time | — |
 | Inbox | Note | Text | — |
 | Inbox | Cleared | Checkbox | Claude-managed clearing verdict; hidden in every view — ships with core v0.1.12 (act:7cbb654f) |
-| Next Actions | Name | Title | — |
-| Next Actions | Context | Select | `@Calls`, `@Errands`, `@Computer`, `@Home`, `@Anywhere` |
-| Next Actions | Status | Select | `Next`, `Waiting`, `Done` |
-| Next Actions | Project | Relation → Projects | dual-property; creates `Actions` on Projects |
-| Next Actions | Due | Date | — |
-| Next Actions | Planned | Date | added 2026-07-26; ships with core v0.1.12 (act:f8b9b7ac) |
-| Next Actions | Done? | Checkbox | her done-signal; the daily run reconciles it into `Status`/`Completed` — **created by setup, ships with core v0.1.12** (ownership settled 2026-07-29, act:f4057d14; the skin build verifies and stops if absent, never creates) |
-| Next Actions | Surfaced | Checkbox | Claude-managed home-tier flag; hidden in every view — **created by setup, ships with core v0.1.12** (ownership settled 2026-07-29, act:f4057d14; the skin build verifies and stops if absent, never creates) |
-| Next Actions | Defer | Date | — |
-| Next Actions | Repeat | Text | — |
-| Next Actions | Area | Select | `Household`, `Kids & school`, `Practice (admin)`, `Health`, `Personal` |
-| Next Actions | Notes | Text | — |
-| Next Actions | Completed | Date | written by the daily run, never by Notion |
-| Next Actions | Occurrence | Text | stable across a repeating chain |
-| Next Actions | Next? | Formula | expression below |
+| Actions | Name | Title | — |
+| Actions | Context | Select | `@Calls`, `@Errands`, `@Computer`, `@Home`, `@Anywhere` |
+| Actions | Status | Select | `Active`, `Waiting`, `On hold`, `Someday`, `Done` |
+| Actions | Project | Relation → Projects | dual-property; creates **`Steps`** on Projects (not `Actions` — that is the database's own name) |
+| Actions | Due | Date | — |
+| Actions | Planned | Date | added 2026-07-26; ships with core v0.1.12 (act:f8b9b7ac) |
+| Actions | Done? | Checkbox | her done-signal; the daily run reconciles it into `Status`/`Completed` — **created by setup, ships with core v0.1.12** (ownership settled 2026-07-29, act:f4057d14; the skin build verifies and stops if absent, never creates) |
+| Actions | Surfaced | Checkbox | Claude-managed home-tier flag; hidden in every view — **created by setup, ships with core v0.1.12** (ownership settled 2026-07-29, act:f4057d14; the skin build verifies and stops if absent, never creates) |
+| Actions | Defer | Date | — |
+| Actions | Repeat | Text | — |
+| Actions | Area | Select | `Household`, `Kids & school`, `Practice (admin)`, `Health`, `Personal`, `Other` — **a client-facing property the client owns and edits by asking (D23)**. The starting six are a guess at her life, tuned at onboarding. Shows as the grouping on `Reference library` and a column on `Active projects`; off the by-context board and the dated views, which have their own payload. **A build that finds extra Area options has found the client using the product — adopt, never prune** |
+| Actions | Notes | Text | — |
+| Actions | Completed | Date | written by the daily run, never by Notion |
+| Actions | Occurrence | Text | stable across a repeating chain |
+| Actions | Added | Created time | added 2026-07-31 (D23); survives the move out of the Inbox, so it is the capture date |
+| Actions | Next? | Formula | expression below |
 | Projects | Name | Title | — |
-| Projects | Status | Select | `Active`, `On hold`, `Done` |
-| Projects | Actions | Relation ← Next Actions | auto-created by the dual relation |
-| Projects | Open next actions | Rollup | relation `Actions`, property `Next?`, calculation **Sum** |
+| Projects | Status | Select | `Active`, `On hold`, `Someday`, `Done` — no `Waiting`, deliberately (D23) |
+| Projects | Steps | Relation ← Actions | auto-created by the dual relation; **renamed from the default** |
+| Projects | Open next actions | Rollup | relation `Steps`, property `Next?`, calculation **Sum** |
 | Projects | Outcome | Text | — |
 | Projects | Due | Date | — |
-| Projects | Area | Select | same five as Next Actions |
+| Projects | Area | Select | same six as Actions |
+| Projects | Added | Created time | added 2026-07-31 (D23) |
 | Projects | Stalled | Formula | expression below |
-| Someday / Maybe | Name | Title | — |
-| Someday / Maybe | Category | Select | `Learn`, `Travel`, `Home`, `Read / Watch`, `Buy`, `Ideas` |
-| Someday / Maybe | Note | Text | — |
-| Someday / Maybe | Added | Created time | — |
+| Lists | Name | Title | added 2026-07-31 (D23) — replaces the retired `Someday / Maybe` database |
+| Lists | List | Select | `Groceries`, `To buy`, `Books & shows`, `Trips to take` — **hidden in every view**; it is the filter behind the four named views, never a column |
+| Lists | Done? | Checkbox | ticking removes the item from its view immediately; no reconciliation, no status |
+| Lists | Note | Text | — |
+| Lists | Added | Created time | — |
 | Reference | Name | Title | — |
-| Reference | Category | Select | `Household`, `Accounts & logins`, `Health`, `Travel`, `Contacts`, `Other` |
+| Reference | Area | Select | same six as Actions — **replaces `Category`** (D23) |
 | Reference | Detail | Text | — |
 | Reference | Added | Created time | — |
 | System pulse | Name | Title | exactly one row, titled `heartbeat` — **created by setup, ships with core v0.1.15** (ownership per act:f4057d14's precedent, extended 2026-07-29, act:ac728379; the skin build verifies and stops if absent, never creates) |
@@ -78,7 +83,9 @@ Matching an existing database is **exact, case-sensitive, on the plain title**, 
 | System pulse | Last reviewed | Date | stamped by the weekly review when a walk completes; seeded with the build date at creation (the sitting is a genuine full look-over, and the review rhythm starts counting from it) |
 | System pulse | Review pulse | Formula | expression below — the review card's ripening text, empty for a week after each review |
 
-**Status is `Select`, not Notion's dedicated `Status` type.** Notion's own default for a task-shaped database is the `Status` type, so a build that guesses will guess wrong. The "(default)" noted against `Next` above is a convention Claude follows when writing, not a property setting — `Select` has no default-value concept.
+**Status is `Select`, not Notion's dedicated `Status` type.** Notion's own default for a task-shaped database is the `Status` type, so a build that guesses will guess wrong. The "(default)" noted against `Active` in the prose above is a convention Claude follows when writing, not a property setting — `Select` has no default-value concept.
+
+**⚠ Select option colours are stated exactly below and must be set at creation.** They are the one thing in this specification that cannot be repaired: **F-7** — Notion rejects a change to an existing option's colour, atomically and permanently. Two facts, both executed 2026-07-31, bound how much that matters. **F-7 only fires if an `ALTER` actually *changes* a colour** — re-asserting an option with the colour it already has passes cleanly and preserves its option id, and omitting the colour entirely is also accepted (a *new* option with no colour lands as `default`). And **the current colours are readable** — every `create-database` and `update-data-source` response returns each option's `color`, which retracts the part of **F-24** that said otherwise. So adding an option to a populated select is safe: read the palette, re-assert it exactly, append the new one.
 
 **Select option colours are deliberately unspecified.** A colour difference is **not** a repair — a build that "fixes" colours would churn on every run. (The Phase 1a results claimed options were built "and colors as specified"; no colours were ever specified. That claim is wrong and should not be treated as a baseline.)
 
@@ -87,10 +94,14 @@ Matching an existing database is **exact, case-sensitive, on the plain title**, 
 Notion formula syntax is version-sensitive, so these are the exact strings, not descriptions of them:
 
 ```
-Next?     (prop("Status") == "Next" or prop("Status") == "Waiting") ? 1 : 0
+Next?     (prop("Status") == "Active" or prop("Status") == "Waiting") ? 1 : 0
 
 Stalled   (prop("Status") == "Active" and prop("Open next actions") == 0) ? "STALLED" : ""
 ```
+
+**`Next?` reads `Active`, not `Next` — changed 2026-07-31 with the status rename (D23).** The semantics are unchanged: live means `Active` or `Waiting`, and everything else scores 0. Note what that buys for free — an action marked `On hold` or `Someday` scores 0, so it never counts as a project's live next step, which is exactly right and required no new logic. `Stalled` is unchanged in every respect.
+
+**⚠ On an existing build, the order of these writes is not optional.** Writing the new `Next?` before the rows have been migrated makes every action score 0, every rollup read 0, and `Stalled` fire on **every** active project — flooding the one view that must never be ignorable. The five-step order is under Build order below.
 
 The System pulse's two formulas, same rule — exact strings, written as given (the platform compiles `prop("…")` references to internal ids on store, so a stored expression will not read back verbatim; verification is behavioral — the skin build's drills — never a string comparison of the stored expression):
 
@@ -117,22 +128,39 @@ _Added 2026-07-29 (act:ac728379), pulling the whole database into this specifica
 
 ## Views — complete
 
-Eleven views. Ten are specified below; the eleventh is the default table view Notion creates with every database and which cannot be removed through the connector (**F-15**, gap ledger). **The build adopts the default view of the first database as that database's specified view rather than adding an eleventh** — otherwise every run leaves an unnamed stray. Adopting-and-renaming a default view is confirmed working (executed 2026-07-26; **F-15**, gap ledger). Adoption now matters twice over: an unadopted default view shows **every** property, hidden plumbing included — `Cleared` among it — so a stray default view would leak exactly the columns the client must never see.
+**Sixteen views. Fifteen are specified below**; the sixteenth is the default table view Notion creates with every database and which cannot be removed through the connector (**F-15**, gap ledger). **The build adopts the default view of each database as that database's first specified view rather than adding an extra one** — otherwise every run leaves an unnamed stray. Adopting-and-renaming a default view is confirmed working (executed 2026-07-26; **F-15**). Adoption matters twice over: an unadopted default view shows **every** property, hidden plumbing included — `Cleared` and `List` among it — so a stray default would leak exactly the columns the client must never see. **System pulse's default view is the one exception and is left alone deliberately** (see the System pulse section); it is not a stray and must not be reported as one.
 
-Hidden in **every** view listed: `Next?`, `Stalled`, `Area`, `Completed`, `Occurrence`, `Surfaced`, `Cleared`, **and the `Open next actions` rollup** (a number that exists for the `Stalled` formula, not for people) — with **one deliberate exception: `Completed` is a *visible* column in Done (recently), and only there.** It is that view's payload — what got done, when — not plumbing. _(An earlier version of this sentence omitted the exception and so contradicted the per-view column lists below; resolved 2026-07-27, when a live API audit found the reference build conforming to the per-view lists exactly. **The per-view column lists are the authority** whenever the two disagree.)_ (`Planned` and `Done?` are client-facing but appear only on the skin's home views, which ship later — the ten views below predate them and the Presentation section's exact column lists already exclude them.) These are plumbing and the client must never see them. The title (`Name`) is the opposite: **never hidden, and it leads — first column in every view, everywhere**, including the Weekly Review page's linked views. (Observed 2026-07-24: the first live review page had `Name` parked as the *last* column in the action and project embeds, leaving rows effectively anonymous at a glance; an earlier read mis-diagnosed this as "hidden" — it was trailing.) The full per-view column list is in the Presentation section below.
+Hidden in **every** view listed: `Next?`, `Stalled`, `Completed`, `Occurrence`, `Surfaced`, `Cleared`, `List`, **and the `Open next actions` rollup** (a number that exists for the `Stalled` formula, not for people) — with **one deliberate exception: `Completed` is a *visible* column in Done (recently), and only there** (it is that view's payload — what got done, when). **`Area` is not in that hidden list at all** — it is a client-facing property; see the note below for where it shows.
+
+**⚠ `Area` is a client-facing property, not plumbing.** It shows as the **grouping on `Reference library`** and as a **column on `Active projects`** — the latter because "which parts of my life have something moving in them" is the question areas exist to answer, and it is the projects list where a person asks it. It stays off the by-context board (those cards carry Name and Due; a third element competes for the same glance) and off the dated views, which have their own payload. _(Two earlier versions of this paragraph were wrong in opposite directions — one listed `Area` as always-hidden plumbing, the next allowed it only as a single grouping on the strength of an argument that auto-assignment makes a label "not hers." Both superseded 2026-07-31: filling something in for someone is a convenience, and this whole system is built on auto-assignment plus cheap correction.)_
+
+_(The per-view column lists in the Presentation section are the authority whenever this paragraph and they disagree — resolved 2026-07-27 after a live API audit found the reference build conforming to the per-view lists exactly.)_ (`Planned` and `Done?` are client-facing but appear only on the skin's home views and the Lists views.) The title (`Name`) is the opposite of plumbing: **never hidden, and it leads — first column in every view, everywhere**, including the two pages' linked views. (Observed 2026-07-24: the first live review page had `Name` parked as the *last* column, leaving rows effectively anonymous at a glance.)
 
 | # | Database | View name | Type | Filter | Group | Sort |
 |---|---|---|---|---|---|---|
 | 1 | Inbox | To process | Table | `Cleared` is not checked (stored as `checkbox_is_not: true`; the property stays out of the view's visible columns) | none | `Captured` ascending |
-| 2 | Next Actions | Next actions — by context | Board | `Status = Next` AND (`Defer` is empty OR `Defer` ≤ *build date*) | `Context` | `Due` ascending |
-| 3 | Next Actions | Waiting for | Table | `Status = Waiting` | none | `Notes` ascending |
-| 4 | Next Actions | Due soon | Table | **Target: `Due` on or before `one_month_from_now` AND `Status` ≠ `Done`** — "due within the month." _Interim, while views are built through the connector (F-9): `Due` ≤ *build date + 14 days*, re-stamped nightly._ | none | `Due` ascending |
-| 5 | Next Actions | Later (scheduled to return) | Table | `Defer` > *build date* | none | `Defer` ascending |
-| 6 | Next Actions | Done (recently) | Table | **Target: `Status = Done` AND `Completed` on or after `one_week_ago`** — "done in the past week." _Interim, while views are built through the connector (F-9): `Completed` ≥ *build date − 7 days*, re-stamped nightly — **and this is the view that was found never being re-stamped at all** (2026-07-27, ten days stale)._ | none | `Completed` descending |
-| 7 | Projects | Active projects | Table | `Status = Active` | none | `Name` ascending |
-| 8 | Projects | ⚠ Stalled — needs a next action | Table | `Stalled` = `STALLED` | none | `Name` ascending |
-| 9 | Someday / Maybe | Someday list | Table | none | `Category` | `Added` descending |
-| 10 | Reference | Reference library | Table | none | `Category` | `Name` ascending |
+| 2 | Actions | Actions — by context | Board | `Status = Active` AND (`Defer` is empty OR `Defer` ≤ *build date*) | `Context` | `Due` ascending |
+| 3 | Actions | Waiting for | Table | `Status = Waiting` | none | `Notes` ascending |
+| 4 | Actions | Due soon | Table | **Target: `Due` on or before `one_month_from_now` AND `Status` ≠ `Done`** — "due within the month." _Interim, while views are built through the connector (F-9): `Due` ≤ *build date + 14 days*, re-stamped nightly._ | none | `Due` ascending |
+| 5 | Actions | Later (scheduled to return) | Table | `Defer` > *build date* | none | `Defer` ascending |
+| 6 | Actions | Done (recently) | Table | **Target: `Status = Done` AND `Completed` on or after `one_week_ago`** — "done in the past week." _Interim, while views are built through the connector (F-9): `Completed` ≥ *build date − 7 days*, re-stamped nightly — **and this is the view that was found never being re-stamped at all** (2026-07-27, ten days stale)._ | none | `Completed` descending |
+| 7 | Actions | Someday — actions | Table | `Status = Someday` | none | `Added` descending |
+| 8 | Projects | Active projects | Table | `Status = Active` | none | `Name` ascending |
+| 9 | Projects | ⚠ Stalled — needs a next action | Table | `Stalled` = `STALLED` | none | `Name` ascending |
+| 10 | Projects | Someday — projects | Table | `Status = Someday` | none | `Added` descending |
+| 11 | Lists | Groceries | Table | `List = Groceries` AND `Done?` is not checked | none | `Added` ascending |
+| 12 | Lists | To buy | Table | `List = To buy` AND `Done?` is not checked | none | `Added` ascending |
+| 13 | Lists | Books & shows | Table | `List = Books & shows` AND `Done?` is not checked | none | `Added` ascending |
+| 14 | Lists | Trips to take | Table | `List = Trips to take` AND `Done?` is not checked | none | `Added` ascending |
+| 15 | Reference | Reference library | Table | none | **`Area`** | `Name` ascending |
+
+**Why Lists gets a view per list and not one grouped view.** One view grouped by `List` would be structurally identical to the two views this redesign removed — from the client's side that is one list with four headings, not four lists, which is the exact artifact being retired. Named views also serve the case the decision was made for: at the shop, one-handed, Groceries fills the screen. The `List` property is then pure plumbing and never appears as a column.
+
+**★ Views 11–14 are the starting set, not the specification's limit.** *"Claude, start me a list of X"* must work on the spot, and it is two connector calls: `ALTER` the `List` select to append the option (re-asserting the existing options with their current colours — safe and executed 2026-07-31), then create a table view filtered to it, `Done?` unchecked, columns `Name · Note`. **A build that finds extra `List` options and extra list views on an existing system has found the client using the product correctly — it adopts them and never prunes them.** _(D23; the reasoning is in `docs/gtd-decisions.md`.)_
+
+**Views 7 and 10 are sorted by `Added` descending, not by name**, because the question a someday list answers is *how long has this been sitting?* — which is why `Added` was added to both databases in the same decision.
+
+**★ Why `Due` is a visible column on views 7 and 10 — it is a sentinel, not a detail (added 2026-08-01).** `Someday` and `Due` are a contradiction: a deadline says *this has to happen by then*, which is a commitment, and someday says none was made. The rule that follows lives in the skills — capture never sets both, and the weekly review takes the date off into the note when something is released. **This column is the net for a row that acquires the state some other way**, which is the only detection available: the review deliberately reads *views* rather than querying the databases (the two draw from separate limited pools on the free plan, **F-17**), so a value in no view is a value the review cannot see. On a healthy system the column is empty on every row, which makes anything in it read as the contradiction it is. **No formula and no extra view were built for this** — a `Stalled`-style text sentinel was considered and rejected as schema bought for something two visible columns already answer.
 
 **Dates in filters are literal and stamped at build time — but this is a CONNECTOR limit, not a Notion one, and it is temporary. See gap-ledger row F-9 in `docs/cowork-capabilities.md`; owner act:5b51ecf1.**
 
@@ -156,25 +184,50 @@ _The sections above say what exists; this one says what shows. It exists because
 | # | View | Visible columns, in order |
 |---|---|---|
 | 1 | To process | Name · Captured · Note |
-| 2 | Next actions — by context (board) | cards: Name · Due — grouped by Context, no Context property on the cards; small cards, no covers |
+| 2 | Actions — by context (board) | cards: Name · Due — grouped by Context, no Context property on the cards; small cards, no covers |
 | 3 | Waiting for | Name · Notes · Project |
 | 4 | Due soon | Name · Due · Context · Project |
 | 5 | Later (scheduled to return) | Name · Defer · Project |
 | 6 | Done (recently) | Name · Completed · Project |
-| 7 | Active projects | Name · Due |
-| 8 | ⚠ Stalled — needs a next action | Name |
-| 9 | Someday list | Name · Note · Added — grouped by Category, no Category column |
-| 10 | Reference library | Name · Detail · Added — grouped by Category, no Category column |
+| 7 | Someday — actions | Name · Notes · **Due** · Added |
+| 8 | Active projects | Name · Area · Due |
+| 9 | ⚠ Stalled — needs a next action | Name |
+| 10 | Someday — projects | Name · Outcome · **Due** · Added |
+| 11–14 | Groceries · To buy · Books & shows · Trips to take | Name · Note — **no `List` column** (it is the filter, not content) and **no `Done?` column** (ticking is done from the home surface and the row leaves the view; a checkbox column here invites treating a grocery list like a task list) |
+| 15 | Reference library | Name · Detail · Added — grouped by **Area**, no Area column |
 
-**Select option colors — stamped at creation, never repaired.** At most three hues carry meaning, and nothing is ever red (the skin synthesis's discipline): Next Actions `Status`: `Next` = green · `Waiting` = yellow · `Done` = gray. Projects `Status`: `Active` = green · `On hold` = yellow · `Done` = gray. Contexts: all gray — they are wayfinding, not signals. Someday and Reference categories: gray. **A color difference on an existing build is not a repair — and cannot be one:** the connector refuses to recolor an existing select option outright (**F-7**, gap ledger — verified 2026-07-25: the API rejects the update atomically). Creation is the *only* moment option colors can ever be set, so get them right at build time; a pre-existing build keeps whatever colors it has unless an option is destructively recreated, which is never done.
+**Select option colors — stamped at creation, and only repairable in one direction.** At most three hues carry meaning, and nothing is ever red (the skin synthesis's discipline):
 
-**Icons, set at creation** (icons, never in titles — see Naming): 📥 Inbox · ✅ Next Actions · 📁 Projects · 🌱 Someday / Maybe · 📚 Reference; pages: `My System` 🌿 · `Weekly Review` 🗓. Icon drift is not a repair.
+```
+Actions   Status:  Active = green · Waiting = yellow · On hold = yellow · Someday = gray · Done = gray
+Projects  Status:  Active = green · On hold = yellow · Someday = gray · Done = gray
+Context:           all gray — wayfinding, not signals
+Area:              all six gray
+List:              all four gray
+```
 
-## The Weekly Review page
+**This table governs the options a build CREATES, and only those.** Everything parked or finished is gray; everything blocked or paused is yellow. **A colour difference on an existing build is not a repair — the connector refuses to recolour an existing option, atomically (F-7).** But note what that does and does not forbid, since it governed more of this design than it should have: **it only fires when an `ALTER` changes a colour.** Re-asserting an option with the colour it already has is fine, omitting the colour is fine, and the current colours are readable from any `update-data-source` response (retracting part of **F-24**) — so *adding* an option to a populated select is safe. Both facts executed 2026-07-31.
 
-A page titled `Weekly Review` (emoji as icon), opening with **one plain-language intro paragraph** under the title, then containing **eight linked views** in this order, matching the eight-step walk: Done (recently) · To process · ⚠ Stalled · Active projects · Waiting for · Due soon · Later (scheduled to return) · Someday list. Steps 6 of the walk covers two views (Due soon and Later); step 8 is a question and has no view.
+**⚠ An earlier version of this paragraph said `Active` inherits the green that `Next` carried. That is false, and it mattered: it told the operator the colour arrives by itself.** Read live off the reference build 2026-08-01 through the REST API: **`Next` is `default`, and so is every other select option in that workspace** — Status, Context and Area on Actions, Status and Area on Projects, Category on Reference. The colour scheme in the block above has never been applied anywhere. Two consequences follow, and neither is optional:
 
-**Each embed is labeled by its own heading block, never by renaming the embed.** Two hard-won facts (2026-07-24, first live review page, then the repair run): Notion titles a linked-view block with the source *database's* name by default, so an unlabeled page shows two blocks called "Projects" and four called "Next Actions," indistinguishable to a person — and that title **is treated as unrepairable in place**: the embed's heading IS the shared database name — in the repair run's one observed incident, renaming it renamed the source database globally, and no local-rename route was found (session-reported; the propagation itself was observed live). Until a safe route is demonstrated, never attempt it. So the page is built as **a `##` heading carrying the view's name, followed by the linked embed, eight times, in the walk's order.** Never rely on, or attempt to rename, an embed's built-in heading. Once the extension MCP can toggle "show database title" off on a linked block, hide the eight built-in titles so only the headings show; until then the duplicate database-name line below each heading is accepted clutter, marked interim.
+- **On a migration, the moment an option is created is the only moment it can ever take a colour.** For an existing build that means only the *new* options are reachable — on the reference build, `Active`, `On hold` and `Someday` on Actions, `Someday` on Projects, `Other` on Area, and the whole of `List`. Everything already there is `default` forever.
+- **So a migrating build creates its new options `default` too, and does not try for a partial scheme.** Half a colour scheme is worse than none: a green `Active` on Actions beside a `default` `Active` on Projects — which can never be recoloured — teaches that colour carries meaning and then contradicts it one database over. A **fresh** build takes the full table above at creation, where every option is new and the scheme lands whole. The residue on a legacy build is cosmetic, it is recorded here so nobody reads it as a defect, and **no run may ever attempt to "repair" it.**
+
+**Icons, set at creation** (icons, never in titles — see Naming): 📥 Inbox · ✅ Actions · 📁 Projects · 🛒 Lists · 📚 Reference; pages: `My System` 🌿 · `Someday / Maybe` 🌱 · `Weekly Review` 🗓. Icon drift is not a repair.
+
+## The two pages
+
+### 🌱 Someday / Maybe
+
+A page titled `Someday / Maybe` (emoji as icon), opening with **one plain-language sentence** under the title, then **two linked views under a single `##` heading**: `Someday — actions` and `Someday — projects`.
+
+This page exists because dissolving the someday *database* would otherwise have left the state with no place to look, and a thing you can't go and find isn't really filed. It costs no schema and no read budget — it is two embeds over views that already exist. _(D23, 2026-07-31.)_
+
+### 🗓 Weekly Review
+
+A page titled `Weekly Review` (emoji as icon), opening with **one plain-language intro paragraph** under the title, then containing **nine linked views** in this order, matching the eight-step walk: Done (recently) · To process · ⚠ Stalled · Active projects · Waiting for · Due soon · Later (scheduled to return) · **Someday — actions · Someday — projects**. Step 6 of the walk covers two views (Due soon and Later) and **step 7 now covers two as well, under one shared heading**; step 8 is a question and has no view. **Nine embeds, still eight steps** — do not add a ninth heading.
+
+**Each embed is labeled by its own heading block, never by renaming the embed.** Two hard-won facts (2026-07-24, first live review page, then the repair run): Notion titles a linked-view block with the source *database's* name by default, so an unlabeled page shows several blocks called "Projects" and several called "Actions," indistinguishable to a person — and that title **is treated as unrepairable in place**: the embed's heading IS the shared database name — in the repair run's one observed incident, renaming it renamed the source database globally, and no local-rename route was found (session-reported; the propagation itself was observed live). Until a safe route is demonstrated, never attempt it. So each page is built as **a `##` heading carrying the view's name, followed by the linked embed**, in the walk's order — with the someday step's two embeds sharing one heading. Never rely on, or attempt to rename, an embed's built-in heading. Once the extension MCP can toggle "show database title" off on a linked block, hide the built-in titles so only the headings show; until then the duplicate database-name line below each heading is accepted clutter, marked interim.
 
 **A linked view on this page mirrors its saved view exactly** — same name, same filter, same sort, same visible columns. The same first live page had embeds leading with `Outcome` and no title column at all, leaving every row anonymous. The `Name` column is never hidden in any view, anywhere — hiding plumbing means the helper properties, never the title.
 
@@ -182,14 +235,59 @@ A page titled `Weekly Review` (emoji as icon), opening with **one plain-language
 
 Each link depends on the one before it. Out of order, the failures look like connector faults rather than sequencing mistakes:
 
-> the five databases → the dual relation (Next Actions → Projects) → `Next?` → `Open next actions` rollup (which sums `Next?`) → `Stalled` (which reads the rollup) → view 8 (which filters `Stalled`)
+> the five databases → the dual relation (Actions → Projects, whose far side is renamed `Steps`) → `Next?` → `Open next actions` rollup (which sums `Next?`) → `Stalled` (which reads the rollup) → view 9 (which filters `Stalled`)
 
-Nothing downstream of a missing link can be built. A build interrupted inside this chain must resume from the first missing link rather than starting over.
+Nothing downstream of a missing link can be built. A build interrupted inside this chain must resume from the first missing link rather than starting over. **Lists sits outside the chain entirely** — no relation, no rollup, no formula — so it can be built at any point after its database exists.
+
+### ⚠ Migrating an existing build — five steps, and collapsing them is the failure
+
+A build made before 2026-07-31 has a database called `Next Actions` whose rows carry `Status = Next`. Renaming that option is **not** an operation Notion offers. Executed and verified 2026-07-31: an `ALTER COLUMN "Status" SET SELECT(…)` that swaps `Next` for `Active` in one statement destroys the old option, gives the new one a fresh option id, and **every row that held `Next` reads back empty** — while the write returns SUCCESS with no warning of any kind (**F-26**; the same silent-success family as **F-3** and **F-4**). It is recoverable — re-adding an option of that name restores the values, so the underlying text survives — but a live system spends the intervening window with every action statusless, every rollup reading zero, and ⚠ Stalled firing on every active project.
+
+**⚠ There is a SECOND hazard, and the five steps below were not written against it.** They are sound on the axis they were designed for — no row is ever statusless — but **Notion stores a view's select filter by option NAME, not by option id.** So the moment the rows leave `Next`, every view whose filter names `Next` returns **zero rows**, and it does so at the migration step, before the option is even dropped. Read live off the reference build through the REST API, 2026-08-01:
+
+```
+view "Next actions — by context"      {"property":"wmaF","select":{"equals":"Next"}}   — 23 rows today
+view "Held back — they're safe here"  {"property":"wmaF","select":{"equals":"Next"}}   — same predicate
+```
+
+That is the client's main working board and the home page's held-back toggle, both empty and both silent about it. **The re-point of those filters is not order-free; it belongs with the row migration, and it is what makes dropping the option safe afterwards.** Step 0b is how the list of filters to re-point is made complete for *this* build rather than remembered from another one.
+
+**The order, pinned. Steps 1–6 were executed end to end on a scratch database before being written here; step 0 and the re-point were added 2026-08-01 after the live read above.**
+
+**0a. Pause the scheduled daily run, and keep it paused until step 6 is verified.** Not housekeeping — a live hazard. A published plugin older than this schema still writes `Status: Next`, so a capture landing inside the window creates a row that the drop then blanks (**F-26**), and it also breaks step 3's gate by re-creating the value the gate requires to be zero.
+
+**0b. Enumerate every view on every database, and write down which filters name `Next`** — plus each one's full filter JSON, which is what the re-point has to preserve. Read-only, through Notion's own REST API (`GET /v1/views?database_id=…`, then `GET /v1/views/{id}` per view): `scripts/repoint-select-filters.mjs --dry-run` does exactly this and prints the list. **The enumeration is the check; the two views named above are what one build had on one day.** A client's build has views this document has never seen — she is encouraged to ask for them (views 11–14's note) — and every one of them is keyed by name like the rest.
+
+1. Write a **transitional** `Next?` that accepts both vocabularies:
+   `(prop("Status") == "Active" or prop("Status") == "Next" or prop("Status") == "Waiting") ? 1 : 0`
+2. `ALTER` the `Status` option set to **add** `Active`, `On hold` and `Someday` while **keeping** `Next` — re-asserting every existing option with the colour it already has (readable from the response), and creating the new ones to match what is already there rather than reaching for the colour table; see the colour note above for why a legacy build's palette is unreachable and must not be chased.
+3. Migrate every row's `Status` from `Next` to `Active`. **Verify by count through `query_data_sources`** — never a page render, which can echo a write that did not land (**F-4**). **The gate is `count(Status = Next) == 0`, not `count(Status = Active) == n`.** The two differ the moment anything writes a `Next` during the window, which is exactly the risk 0a exists to remove — and only the first of them is a safe precondition for step 4.
+4. **Re-point every filter from step 0b's list, from `Next` to `Active`, and read each one back.** Do this **through the REST API, not the connector** — the by-context board's filter also carries a live relative `today`, and the connector cannot write a relative date at all (**F-9**), so rewriting that filter through it would silently undo the one-time relative conversion and put the view back on a rotting literal. `scripts/repoint-select-filters.mjs` changes only the select value and leaves the rest of each filter byte-identical, verifying by independent re-read.
+5. `ALTER` again to **drop** `Next`, now that no row holds it and no filter names it.
+6. Write the final `Next?`: `(prop("Status") == "Active" or prop("Status") == "Waiting") ? 1 : 0`
+
+**★ Where the plugin update belongs in all this — there is exactly one safe window, and it is not obvious.** The client's installed plugin writes a status value on every capture, so it and the board have to speak the same vocabulary. **Before step 2 the new build is wrong** (it writes `Active`, an option that does not exist yet); **after step 5 the old build is wrong** (it writes `Next`, an option that is gone). In between, **from step 2 to step 4 the board holds BOTH options and tolerates either build** — that overlap is the window, and it is the reason the option is added before the rows are migrated rather than as part of the same statement. Publish and update the plugin inside it, or keep captures paused across the whole migration and update at the end. Either is fine; drifting into it unplanned is not, and **an update is never instant on this platform** (**F-25**: the marketplace entry must be refreshed before the plugin's Update button even enables, and the pane reports "On latest version" while lying).
+
+_(What a stored filter does after its named option is dropped — a hard error or a silent empty — has never been probed. **Step 4 is what makes the question moot**: on the ordered path nothing still names `Next` by the time step 5 runs. It stays unprobed deliberately rather than by oversight, and step 0b is what keeps it moot on a build whose views nobody wrote down.)_
+
+**Then the prerequisites — these are NOT order-free, and three of them were missing from this list entirely until 2026-08-01.** Each was confirmed absent on the live reference build the same day.
+
+- **Add `Someday` to the Projects `Status` select** (live: `Active · On hold · Done` only). Views 10 and the whole Someday page depend on it, and so does the someday-as-a-status proof in the acceptance criteria.
+- **Add `Added` (Created time) to Actions and Projects** (live: absent from both; only Reference and the retired Someday database have it). **Before views 7 and 10**, which sort on it.
+- **Add `Other` to the `Area` select on Actions and Projects** (live: five options, no `Other`), and create `Area` on Reference with all six. D23's disposition table routes real values there — Reference's `Other` and the retired `Ideas` category both land on Area `Other` — so without it the migration has nowhere to put them.
+- **Redistribute the rows out of the retired `Someday / Maybe` database, then retire it.** This is the migration the naming section forward-references; per D23's disposition table, by the row's `Category`: `Learn` → an action or project at status `Someday`, Area `Personal`; `Home` → the same, Area `Household`; `Travel` → the `Trips to take` list; `Read / Watch` → `Books & shows`; `Buy` → `To buy`; `Ideas` → a **Reference** row at Area `Other`. **Carry each row's `Note` across** — that is where a wake-note lives ("revisit when the weather turns"), and it is the only content in that database worth anything.
+- **Rename the by-context board view** from `Next actions — by context` to `Actions — by context`. `scripts/convert-views-to-relative.mjs` hard-requires the new name and is deliberately strict: under the old one it prints "view not found", converts the other three, and **exits 1** — so a build that skips this rename leaves the converter failing on every future run.
+
+**Then the rest, in any order:** rename the database to `Actions`; add the `Area` values migrated from `Category` per D23's disposition table; build Lists and its four views; build views 7 and 10 and the Someday page. **Dropping the old `Category` property destroys the data in it (F-11) — that is the client's call, made out loud, after the values have been migrated and read back.**
+
+**★ The Projects-side relation rename goes LAST, on its own, with a check.** Renaming `Actions` → `Steps` is the one write in this migration whose reversibility has never been stated, and it sits at the head of the chain everything else hangs off: live, `Open next actions` is a rollup over `relation_property_name: "Actions"` (id `]Cf<`), that rollup feeds `Stalled`, and `Stalled` feeds the single most load-bearing view in the system. Whether the stored rollup follows a renamed relation **has not been checked**, and the honest position is that it is unknown rather than safe. So it goes last, when everything else is already verified: if it breaks the chain, the damage is one property and one view rather than a half-migrated board. **Immediately after it, re-read the Projects data source and confirm the rollup still resolves — `relation_property_id` unchanged and `rollup_property_id` still pointing at `Next?` — then confirm by view membership that ⚠ Stalled behaves** (never by reading the rollup, which comes back empty through the connector — **F-2**).
+
+**One piece of pre-existing drift a careful read-back will find, and must not "fix".** The reference build's Inbox carries three select properties this specification does not define — `Status`, `Area` and `Context`, with option sets mirroring Actions — left behind by rows that moved between the two databases. **No Inbox row holds a value in any of them** (read live 2026-08-01), and they are hidden from the To process view by its column list. They are residue, not schema: leave them alone, and do not let them fail a "every select option set matches" check.
 
 ## Constraints and choices worth knowing
 
 - **Free-tier and connector-safe only.** Everything here is create / read / update on pages and database entries, plus normal views, relations, and rollups — all free-tier Notion features. Nothing depends on Notion AI or any AI-gated query (workspace-wide semantic search, AI database queries). When Claude needs to read a list, it queries that specific database by its own properties (e.g. "rows in the Inbox database"), which is standard connector behavior — never a global search.
-- **Where the database IDs live.** The capture skill refers to these lists by name ("the Next Actions list," "the Projects list"). The mapping from those names to the client's actual Notion database IDs is client-owned configuration, bound during connector setup (Phase 0.5 / the two-layer model in Phase 2). The capture skill itself is written to stay tool-agnostic — this document is where that abstraction ends: it *is* the Notion-specific adapter (Select, Relation, Rollup are Notion field types throughout), and only the name-to-ID binding is separately configured.
+- **Where the database IDs live.** The capture skill refers to these lists by name ("the Actions list," "the Projects list"). The mapping from those names to the client's actual Notion database IDs is client-owned configuration, bound during connector setup (Phase 0.5 / the two-layer model in Phase 2). The capture skill itself is written to stay tool-agnostic — this document is where that abstraction ends: it *is* the Notion-specific adapter (Select, Relation, Rollup are Notion field types throughout), and only the name-to-ID binding is separately configured.
 - **The calendar boundary.** This structure deliberately does not reinvent a calendar. Something you must be at, at a specific date and time (an appointment, a flight), belongs on the client's real calendar — handled by the calendar connector, not by a Notion database. A task that has a *deadline* but flexible timing ("file the form by Friday") is a Next Action or Project with a `Due` date. Claude routes hard date-and-time commitments to the calendar and deadline'd tasks to `Due`.
 - **The inbox gets emptied.** By design, a processed inbox item is cleared, not left as a duplicate of the action it became. Two rows for one commitment is a projection that drifts; the home list is the single source of truth, and an emptied To-process list is the visible proof the system is current. Filing clears by **moving** the row; a capture with no destination is cleared by ticking the hidden `Cleared` checkbox, which removes it from every client-facing view instantly and records the verdict durably. Physically trashing the ticked rows stays with the local extender's attended trash verb (**F-3**, gap ledger; act:08d1df6c).
 - **Computed values are invisible to Claude.** Rollups and formulas — `Open next actions`, `Next?`, `Stalled` — render fine for a human reading the page but come back empty when Claude reads them through the connector (finding F-2). Claude can never read a computed count directly; it observes the *effect* (does this project appear in the Stalled view?) or recomputes from the underlying rows. Any future logic that wants a number off a rollup has to work this way instead.

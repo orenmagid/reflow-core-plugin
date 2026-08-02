@@ -12,19 +12,35 @@ description: >-
 
 This builds the thing every other skill writes into. It runs with the client there — it needs their permission before it starts, and it can't be done while nobody's watching.
 
-**The exact structure to build is the Build specification, bundled alongside this skill as `build-specification.md` (in this skill's own folder inside the plugin).** Read it before touching anything. Names, property types, option sets, the two formulas written out literally, all ten views with their filters and sorts, and which fields to hide. Follow it exactly. This skill describes *how to build safely*; that describes *what to build*. Where they seem to disagree, the specification wins — and say so rather than quietly picking one. **If you cannot find or read that file, stop and say so — never build from memory of what the structure probably is.** A plausible-looking build from memory is the worst outcome available: it can't be deleted, and every difference from the real specification becomes permanent.
+**The exact structure to build is the Build specification, bundled alongside this skill as `build-specification.md` (in this skill's own folder inside the plugin).** Read it before touching anything. Names, property types, option sets, the two formulas written out literally, all fifteen views with their filters and sorts, and which fields to hide. Follow it exactly. This skill describes *how to build safely*; that describes *what to build*. Where they seem to disagree, the specification wins — and say so rather than quietly picking one. **If you cannot find or read that file, stop and say so — never build from memory of what the structure probably is.** A plausible-looking build from memory is the worst outcome available: it can't be deleted, and every difference from the real specification becomes permanent.
 
 ## The thing to understand before you start
 
 **Check before you create, always.** Never assume you are starting from nothing. Re-running this is meant to be safe and boring — it should find its own previous work and leave it alone. If re-running would produce a second copy of anything, you have got it wrong.
 
-That is good practice under any circumstances; nobody wants a workspace with two lists called "Next Actions" and no way to tell which is real. And check-before-create still carries real weight, because cleanup is uneven — corrected 2026-07-27, since an earlier version of this paragraph said nothing could ever be deleted and that is wrong in two of three cases:
+That is good practice under any circumstances; nobody wants a workspace with two lists called "Actions" and no way to tell which is real. And check-before-create still carries real weight, because cleanup is uneven — corrected 2026-07-27, since an earlier version of this paragraph said nothing could ever be deleted and that is wrong in two of three cases:
 
 - **A field CAN be removed** (drop the column — executed and verified, including on a column holding data). **But dropping a column destroys whatever data is in it**, so removal is never free — and removing a column that a formula or view filter depends on is untested territory. Treat field removal as a repair tool, not an undo button.
 - **A whole database CAN be archived** (executed and verified) — a duplicate from a failed build is recoverable, not permanent.
 - **A single row still cannot be deleted or trashed through the connection you build with** — a gap in the connection, not a limit of Notion, and the reason stray rows are named honestly rather than hidden.
 
 **The row gap now has a real answer for attended work: the companion delete tool exists.** It is a separate, local connection (named `notion-extender-local`) running on the client's own computer, so it answers only while their desktop app is open — and only where it has been installed for this client at all. Check for it once per sitting, never carrying the answer over from a previous one, and know its one deliberate boundary: it refuses to touch anything outside the system it was installed for. Where it is reachable, a stray row stops being permanent; where it is not, the honest accommodations below stand exactly as written, and its absence is a normal state, never an error. The careful checking stays either way.
+
+## ★ What she did herself is not drift — adopt it, never prune it
+
+**The specification says what must be *present*. It never says what must be *absent*.** She may open Notion and change things — add a context, add an area, start a list, rename something, add a column, make a whole new database. That is her workspace and she is allowed. **Nothing you find that you did not create is a fault, and none of it is yours to remove.**
+
+Concretely, when the structure has more than the specification asks for:
+
+- **Extra options on a select** — a seventh area, a sixth context, a fifth list. **Keep every one of them.** When you re-assert an option set (which is how a new option gets added), you must include the ones already there or they are destroyed and every row holding them goes blank. Read the current options first, keep them all, append what is missing. Never write an option set from the specification alone.
+- **Extra views, extra list values, extra rows** — leave them. A client with more lists than shipped is a client using the product properly.
+- **Extra properties** — leave them. A column you did not create may be holding something she cares about, and dropping it destroys the data.
+- **A renamed database** — the address recorded in her settings is what you match on, so a rename does not lose it. Update the recorded name and move on; do not rename it back.
+- **A property whose *type* is wrong for the specification** — this is the one case that genuinely blocks the build, and it has its own handling further down. Stop and offer the two doors; never silently recreate it.
+
+**Say what you found, out loud, in the summary.** "You've added a `@Office` context and a `Records` list since I was last here — I've left both alone and the system knows about them now." Silence here reads as either not noticing or not caring, and both cost trust.
+
+⚠ **One honest limit to state plainly rather than paper over: a database she builds outside the five is not adopted, maintained, or watched.** The system finds its own work by recorded address, and hers has no address in it. Nothing is damaged and nothing is lost — Claude will help with it whenever she asks — but no run will tend it on its own, and she should be told that rather than left to discover it. _(Tracked as an open design question: act:f499cfa9.)_
 
 ## Step 1 — Ask before you touch anything
 
@@ -51,9 +67,9 @@ It has to happen here, and it has to happen with them. A few steps from now this
 
 ## Step 3 — The five lists
 
-**Inbox**, **Next Actions**, **Projects**, **Someday / Maybe**, and **Reference**. (Note the spaces around the slash — that's part of the name, and names are matched exactly.)
+**Inbox**, **Actions**, **Projects**, **Lists**, and **Reference**. (Note the spaces around the slash — that's part of the name, and names are matched exactly.)
 
-For each, create it or adopt what's there, then bring its fields to match the specification. Don't work from memory of what the fields are — read them, every time. There are thirty-five across the five lists and several are easy to get subtly wrong.
+For each, create it or adopt what's there, then bring its fields to match the specification. Don't work from memory of what the fields are — read them, every time. There are thirty-eight across the five lists and several are easy to get subtly wrong.
 
 - **Adding a missing field is safe.** Do it, and mention it.
 - **A field of the wrong type is not.** Notion will often accept the change and lose data doing it, and field structure isn't covered by page history — so there's no getting it back. **Stop, and say plainly what's wrong.** Never convert it and hope.
@@ -66,13 +82,13 @@ The near-certain instance of this: Notion's own default for anything task-shaped
 
 Five things, in this order, each impossible before the one before it:
 
-> the link between Next Actions and Projects → the `Next?` formula → the rollup that sums it → the `Stalled` formula that reads the rollup → the view that filters `Stalled`
+> the link between Actions and Projects → the `Next?` formula → the rollup that sums it → the `Stalled` formula that reads the rollup → the view that filters `Stalled`
 
 Build them in that order. Out of order, the errors look like the connection is broken rather than like a sequencing mistake, and you will waste the client's time looking in the wrong place.
 
 **Existing is not the same as correct, and this is where that bites.** Check how each one is actually configured, not just that something with the right name is present:
 
-- **The link must have both sides** — `Project` on Next Actions *and* `Actions` on Projects. A half-made link looks fine from one side and the rollup can't be built at all. A previous partial run can leave exactly this.
+- **The link must have both sides** — `Project` on Actions *and* `Steps` on Projects. A half-made link looks fine from one side and the rollup can't be built at all. A previous partial run can leave exactly this.
 - **The rollup must sum `Next?`** — not count everything. A rollup with the right name and the wrong sum makes the stalled view lie.
 - **`Stalled` must return text.** If it returns a checkbox, everything still *looks* built — but the view filtering for the word "STALLED" will match nothing, ever. And a stalled-projects view with nothing in it is exactly what a perfectly healthy system looks like. This is the single easiest way to hand someone a broken system they'd never know was broken.
 
@@ -80,7 +96,7 @@ If a run stopped partway through this chain, pick up from the first link that's 
 
 ## Step 5 — The views and the review page
 
-Build the ten views to specification — type, filter, grouping, sort, and **exactly the visible columns the specification's Presentation section names for each view, title first**. The client should never see a column called `Stalled`, nor the rollup's raw number, nor a table that leads with anything but the row's name.
+Build the fifteen views to specification — type, filter, grouping, sort, and **exactly the visible columns the specification's Presentation section names for each view, title first**. The client should never see a column called `Stalled`, nor the rollup's raw number, nor a table that leads with anything but the row's name.
 
 Notion creates a default view with every new database and it can't be removed. **Rename and reuse it as that database's first view** rather than building alongside it and leaving something unnamed behind forever.
 
@@ -90,7 +106,7 @@ _(Notion itself can do relative dates; the tools you have here cannot. Don't rec
 
 **Never write the literal word "today" into a date filter.** It looks like it should work, and the connection *accepts* it without complaint — but it stores a dead value that matches nothing, so the view comes back permanently empty and nothing tells you it broke. This was confirmed the hard way. Always compute today's real date and write that exact date; a filter with "today" in it is a silently broken view, which is worse than an obvious error.
 
-Then the review page: the eight linked views, in the order the weekly walk goes.
+Then the two pages: the Someday page, then the review page with its nine linked views, in the order the weekly walk goes.
 
 ## Step 6 — The status block
 
@@ -127,7 +143,7 @@ The middle one is the one people skip, and it's the one that catches a real faul
 
 Also check the main "what can I do now" view, since its filter is the fiddliest in the system: give a test action a deferred date in the future and confirm it stays out of sight. **Then clear that date once the check passes.** (Found the hard way, 2026-07-24: a probe left holding a future date surfaces in the "scheduled to return" view and walks straight into the weekly review.)
 
-**Leave both test rows at rest carrying no dates and no completion date** — Status `Next`, nothing else. No completion date keeps them out of "what got done," which is where the weekly review opens; no deferred or due date keeps them out of the "coming back" and "due soon" views, which the review also walks. Nobody's first review should start with rows called "test." Name them so their purpose is obvious, and mention them at handover so they're never a small mystery.
+**Leave both test rows at rest carrying no dates and no completion date** — Status `Active`, nothing else. No completion date keeps them out of "what got done," which is where the weekly review opens; no deferred or due date keeps them out of the "coming back" and "due soon" views, which the review also walks. Nobody's first review should start with rows called "test." Name them so their purpose is obvious, and mention them at handover so they're never a small mystery.
 
 On a re-run, reuse the same two test rows rather than making more.
 
@@ -137,9 +153,9 @@ On a re-run, reuse the same two test rows rather than making more.
 
 Record each list's address in the client's settings **as you create it**, not in one batch at the end. A build that gets interrupted near the end would otherwise leave a complete system with no record of itself, and the next run would have to fall back to guessing by name — at exactly the moment when getting it wrong is most expensive.
 
-Record the page you built under, and stamp the structure's version so a later run can tell what predates a change.
+Record the page you built under, and stamp the structure's version so a later run can tell what predates a change. **The current schema version is `0.2.0`** — the object-model change (2026-07-31, `docs/gtd-decisions.md` D23). Anything stamped `0.1.x` predates it and needs the migration under "Build order" in the specification, not a fresh build.
 
-**Their settings file is theirs. Read what's there and change only the lines you have something new for** — the five list addresses plus the System pulse's, the page you built under, the schema version, and the timezone if you asked for it in Step 2 because it was blank. Splice each one into the file in place. **Never rewrite the file from the template and never re-emit it whole:** their contexts, their categories, how they answered about confidential records, how they like being spoken to, and any timezone they had already set all live in the same file, and a wholesale replacement wipes every one of them. That would be this system doing exactly the thing it promises never to do.
+**Their settings file is theirs. Read what's there and change only the lines you have something new for** — the five list addresses plus the System pulse's, the page you built under, the schema version, and the timezone if you asked for it in Step 2 because it was blank. Splice each one into the file in place. **Never rewrite the file from the template and never re-emit it whole:** their contexts, their lists, how they answered about confidential records, how they like being spoken to, and any timezone they had already set all live in the same file, and a wholesale replacement wipes every one of them. That would be this system doing exactly the thing it promises never to do.
 
 **A value they have already filled in is never yours to change.** If the timezone holds a real value and you have reason to think it's wrong, say so and let them decide — don't correct it on their behalf.
 
@@ -147,9 +163,9 @@ Record the page you built under, and stamp the structure's version so a later ru
 
 **Before you report anything, read the build back — a handover records what exists, never what you intended.** The connection this build goes through has returned success for writes it did not perform, and its view tools have silently dropped filter clauses they didn't support (that is how the rollup gap was discovered) — so a clean build transcript proves nothing on its own. Step 8 already proved the plumbing chain behaves; this check covers everything Step 8 doesn't. Confirm each of these by reading it back fresh:
 
-- **All ten views, by name — "the views" is not a list.** Each one's filter, sort, and visible columns match the specification. Sampling is how a real build once carried a filter ten days stale while every check reported fine.
+- **All fifteen views, by name — "the views" is not a list.** Each one's filter, sort, and visible columns match the specification. Sampling is how a real build once carried a filter ten days stale while every check reported fine.
 - **No date filter anywhere stores the literal word "today."** The connection accepts it without complaint and stores a dead value matching nothing — a permanently, silently empty view. Every dated filter holds either today's real date (a fresh build, awaiting the one-time conversion) or a relative word (an adopted, already-converted build you left alone).
-- **The fields, read back from the five lists' actual schemas** — all thirty-five, against the specification, not against the creation calls having succeeded. Types especially: a field that landed with the wrong shape looks fine until the first write into it disappears.
+- **The fields, read back from the five lists' actual schemas** — all thirty-eight, against the specification, not against the creation calls having succeeded. Types especially: a field that landed with the wrong shape looks fine until the first write into it disappears.
 - **The status block exists on the page.** The daily run can only rewrite what is already there; a build that skipped it leaves every future run with nowhere honest to speak.
 - **The addresses you recorded in Step 9 read back from the settings file** — open it and look. A recorded address that didn't land sends the next run back to guessing by name, at exactly the moment guessing is most expensive.
 
